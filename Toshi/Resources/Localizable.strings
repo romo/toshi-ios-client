@@ -43,7 +43,7 @@
 "payment_next_button" = "Next";
 "payment_qr_scanner_instructions" = "Scan QR Code";
 
-"payment_confirmation_warning_message" = "Do you want to send the %@ (%@) to %@?";
+"payment_confirmation_warning_message" = "Do you want to send %@ (%@) to %@?";
 
 "payment_error_message" = "Error creating transaction";
 
