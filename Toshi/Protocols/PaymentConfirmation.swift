@@ -21,13 +21,13 @@ final class PaymentConfirmation {
 
     public func present(for parameters: [String: Any], title: String, message: String, presentCompletionHandler: (() -> Void)? = nil, approveHandler: ((String?, ToshiError?) -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
 
-        EthereumAPIClient.shared.transactionSceleton(for: parameters) { sceleton, error in
+        EthereumAPIClient.shared.transactionSkeleton(for: parameters) { skeleton, error in
             var estimatedFeesString = ""
 
             let confirmationTitle = title
             var messageText = message
 
-            if let gasPrice = sceleton?["gas_price"] as? String, let gas = sceleton?["gas"] as? String {
+            if let gasPrice = skeleton.gasPrice, let gas = skeleton.gas {
 
                 let gasPriceValue = NSDecimalNumber(hexadecimalString: gasPrice)
                 let gasValue = NSDecimalNumber(hexadecimalString: gas)
@@ -35,19 +35,14 @@ final class PaymentConfirmation {
                 let fee = gasPriceValue.decimalValue * gasValue.decimalValue
                 let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-                let feeEthValueString = EthereumConverter.ethereumValueString(forWei: decimalNumberFee)
-
-                let rate = ExchangeRateClient.exchangeRate
-                let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: rate)
-
-                estimatedFeesString = "The estimated Ethereum network fees are \(fiatValueString) (\(feeEthValueString))"
+                estimatedFeesString = EthereumConverter.estimatedEthereumNetworkFeeString(for: decimalNumberFee)
 
                 messageText.append("\n\n\(estimatedFeesString)")
 
                 DispatchQueue.main.async {
                     presentCompletionHandler?()
                     self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
-                        approveHandler?(sceleton?["tx"] as? String, error)
+                        approveHandler?(skeleton.transaction, error)
                     }, cancelHandler: cancelHandler)
                 }
 
@@ -56,7 +51,7 @@ final class PaymentConfirmation {
                     presentCompletionHandler?()
 
                     self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
-                        approveHandler?(sceleton?["tx"] as? String, error)
+                        approveHandler?(skeleton.transaction, error)
                     }, cancelHandler: cancelHandler)
                 }
             }
@@ -64,7 +59,6 @@ final class PaymentConfirmation {
     }
 
     private func showPaymentConfirmation(title: String, message: String, approveHandler: (() -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
-
 
         let alert = UIAlertController(title: Localized("payment_request_confirmation_warning_title"), message: message, preferredStyle: .alert)
 

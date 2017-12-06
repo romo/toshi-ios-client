@@ -221,34 +221,34 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
         case .signTransaction:
-            guard let messageBody = message.body as? [String: Any], let tx = messageBody["tx"] as? [String: Any] else {
+            guard let messageBody = message.body as? [String: Any], let transaction = messageBody["tx"] as? [String: Any] else {
                 jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
                 return
             }
 
             var parameters: [String: Any] = [:]
-            if let from = tx["from"] {
+            if let from = transaction["from"] {
                 parameters["from"] = from
             }
-            if let to = tx["to"] {
+            if let to = transaction["to"] {
                 parameters["to"] = to
             }
-            if let value = tx["value"] {
+            if let value = transaction["value"] {
                 parameters["value"] = value
             } else {
                 parameters["value"] = "0x0"
             }
-            if let data = tx["data"] {
+            if let data = transaction["data"] {
                 parameters["data"] = data
             }
-            if let gas = tx["gas"] {
+            if let gas = transaction["gas"] {
                 parameters["gas"] = gas
             }
-            if let gasPrice = tx["gasPrice"] {
+            if let gasPrice = transaction["gasPrice"] {
                 parameters["gasPrice"] = gasPrice
             }
 
-            if let to = tx["to"] as? String, let value = parameters["value"] as? String {
+            if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
                 IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
                     var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
 
@@ -304,8 +304,7 @@ extension SOFAWebController: WKScriptMessageHandler {
 
         let payload: String
 
-        if let tx = transaction,
-            let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
+        if let tx = transaction, let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
             payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
         } else {
             payload = SOFAResponseConstants.skeletonErrorJSON
@@ -337,8 +336,7 @@ extension SOFAWebController: PaymentPresentable {
 
             let payload: String
 
-            if let tx = transaction,
-               let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
+            if let tx = transaction, let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
                 payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
             } else {
                 payload = SOFAResponseConstants.skeletonErrorJSON

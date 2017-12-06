@@ -50,6 +50,20 @@ struct EthereumConverter {
         return "\(numberFormatter.string(from: balance)!) ETH"
     }
 
+    /// Returns the string representation of current approximate transaction fee.
+    /// Example: "The estimated Ethereum network fees are $0.25 (0.0004 ETH)"
+    ///
+    /// - Parameter valueInWei: the value in wei
+    /// - Returns: the string representation
+    public static func estimatedEthereumNetworkFeeString(for valueInWei: NSDecimalNumber) -> String {
+        let feeEthValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
+
+        let rate = ExchangeRateClient.exchangeRate
+        let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: valueInWei, exchangeRate: rate)
+
+        return String(format: Localized("payment_estimated_fee"), fiatValueString, feeEthValueString)
+    }
+
     /// String representation in eht for a given wei value.
     /// Example:
     ///     ethereumValueString(forWei: halfEthInWei) -> "0.5 ETH"

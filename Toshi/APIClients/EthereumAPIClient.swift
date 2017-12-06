@@ -63,8 +63,8 @@ public class EthereumAPIClient: NSObject {
 
     public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
 
-        transactionSceleton(for: parameters) { sceleton, error in
-            let transaction = sceleton?["tx"] as? String
+        transactionSkeleton(for: parameters) { sceleton, error in
+            let transaction = sceleton.transaction
 
             DispatchQueue.main.async {
                 completion(transaction, error)
@@ -72,7 +72,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func transactionSceleton(for parameters: [String: Any], completion: @escaping ((_ sceleton: [String: Any]?, _ error: ToshiError?) -> Void)) {
+    public func transactionSkeleton(for parameters: [String: Any], completion: @escaping ((_ sceleton: (gas: String?, gasPrice: String?, transaction: String?), _ error: ToshiError?) -> Void)) {
         let json = RequestParameter(parameters)
 
         self.activeTeapot.post("/v1/tx/skel", parameters: json) { result in
@@ -88,7 +88,9 @@ public class EthereumAPIClient: NSObject {
             }
 
             DispatchQueue.main.async {
-                completion(resultJson, resultError)
+
+                let skeleton = (gas: resultJson?["gas"] as? String, gasPrice: resultJson?["gas_price"] as? String, transaction: resultJson?["tx"] as? String)
+                completion(skeleton, resultError)
             }
         }
     }
