@@ -47,7 +47,7 @@
 
 "payment_error_message" = "Error creating transaction";
 
-"payment_estimated_fee" = "The estimated Ethereum network fees are %@ %@";
+"payment_estimated_fee" = "The estimated Ethereum network fees are %@ (%@)";
 
 
 "payment_message_failure_title" = "Failed";
