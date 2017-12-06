@@ -56,6 +56,9 @@
 		2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
+		2B282E7A1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
+		2B282E7B1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
+		2B282E7C1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
 		2B2C845E1F99EB3D00D18CAC /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
 		2B2C845F1F99EB3D00D18CAC /* DepositMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */; };
 		2B2C84601F99EE9200D18CAC /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
@@ -135,11 +138,11 @@
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
+		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
-		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
-		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		33CF51351FD184AB00293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
 		33CF51361FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
 		33CF51371FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
@@ -164,8 +167,6 @@
 		84AED6FE1F42ED91003C38E8 /* String+Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AED6FA1F42EBCB003C38E8 /* String+Regex.swift */; };
 		84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
-		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
-		84C195301ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		84C459021F41B7AA00D534B8 /* QRCodeIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C459011F41B7AA00D534B8 /* QRCodeIntentTests.swift */; };
 		84D678F01EE049930026D7F1 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
 		84FFE1E41F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
@@ -535,7 +536,6 @@
 		A9603F5E1F4DABDC00BF57B1 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
 		A9603F601F4DABDC00BF57B1 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
 		A9603F611F4DABDC00BF57B1 /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E67E3F2BFB7B0171BF61B30 /* libPods-CocoaPods-Distribution.a */; };
-		A9603F651F4DABDC00BF57B1 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		A9603F6A1F4DABDC00BF57B1 /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
 		A9603F6E1F4DABDC00BF57B1 /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9603F6F1F4DABDC00BF57B1 /* SettingsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */; };
@@ -858,6 +858,7 @@
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsClient.swift; sourceTree = "<group>"; };
 		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		2B282E791FD8171900B52272 /* sofa-web3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "sofa-web3.js"; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
 		2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProfileCell.swift; sourceTree = "<group>"; };
@@ -918,7 +919,6 @@
 		8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestMetadata.swift; sourceTree = "<group>"; };
 		84AED6FA1F42EBCB003C38E8 /* String+Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Regex.swift"; sourceTree = "<group>"; };
 		84C1952B1ECF057E00B9512F /* SOFAWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SOFAWebController.swift; sourceTree = "<group>"; };
-		84C1952E1ECF05C100B9512F /* sofa-web3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "sofa-web3.js"; sourceTree = "<group>"; };
 		84C459011F41B7AA00D534B8 /* QRCodeIntentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeIntentTests.swift; sourceTree = "<group>"; };
 		84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAddress.swift; sourceTree = "<group>"; };
 		84FFE1E71F3C7F39008CEEF2 /* EthereumAddressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAddressTests.swift; sourceTree = "<group>"; };
@@ -1442,7 +1442,7 @@
 			isa = PBXGroup;
 			children = (
 				84C1952B1ECF057E00B9512F /* SOFAWebController.swift */,
-				84C1952E1ECF05C100B9512F /* sofa-web3.js */,
+				2B282E791FD8171900B52272 /* sofa-web3.js */,
 			);
 			path = SOFAWebview;
 			sourceTree = "<group>";
@@ -2294,7 +2294,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84C195301ECF05C100B9512F /* sofa-web3.js in Resources */,
 				A9EE1F341F98CBCF00FB3889 /* SF-Pro-Display-Bold.otf in Resources */,
 				2BDBB57B1F7B832A00A0ECA0 /* APIKeys in Resources */,
 				A9EE1F381F98CBCF00FB3889 /* SF-Pro-Display-Semibold.otf in Resources */,
@@ -2311,6 +2310,7 @@
 				9FB36EAF1E7C27A300DB6F86 /* PN.m4a in Resources */,
 				9FB36EA91E7C27A300DB6F86 /* paymentSend.m4a in Resources */,
 				9F78D9DF1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
+				2B282E7C1FD8171A00B52272 /* sofa-web3.js in Resources */,
 				2BD0AC8C1F278677000D2A58 /* token.cer in Resources */,
 				149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */,
 				84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */,
@@ -2327,7 +2327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A93432CB1F94E48500A52F11 /* SF-Pro-Display-Semibold.otf in Resources */,
-				84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */,
 				2BDBB5791F7B832700A0ECA0 /* APIKeys in Resources */,
 				A93432CC1F94E48500A52F11 /* SF-Pro-Display-Light.otf in Resources */,
 				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
@@ -2343,6 +2342,7 @@
 				9FAACCB51E30F24100FB871D /* Localizable.strings in Resources */,
 				9FAACD021E31120600FB871D /* SF-UI-Text-Regular.otf in Resources */,
 				A93432CD1F94E48500A52F11 /* SF-Pro-Display-Bold.otf in Resources */,
+				2B282E7A1FD8171A00B52272 /* sofa-web3.js in Resources */,
 				9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */,
 				2B4BCD5B1F599BEA00F9E609 /* token.cer in Resources */,
 				9F78D9DE1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
@@ -2358,7 +2358,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9603F651F4DABDC00BF57B1 /* sofa-web3.js in Resources */,
 				A9EE1F2F1F98CBCF00FB3889 /* SF-Pro-Display-Bold.otf in Resources */,
 				2BDBB57A1F7B832A00A0ECA0 /* APIKeys in Resources */,
 				A9EE1F331F98CBCF00FB3889 /* SF-Pro-Display-Semibold.otf in Resources */,
@@ -2375,6 +2374,7 @@
 				A9603F7A1F4DABDC00BF57B1 /* PN.m4a in Resources */,
 				A9603F7B1F4DABDC00BF57B1 /* paymentSend.m4a in Resources */,
 				A9603F7D1F4DABDC00BF57B1 /* PaymentRequestInfoView.xib in Resources */,
+				2B282E7B1FD8171A00B52272 /* sofa-web3.js in Resources */,
 				A9603F7E1F4DABDC00BF57B1 /* token.cer in Resources */,
 				A9603F7F1F4DABDC00BF57B1 /* SF-UI-Text-Regular.otf in Resources */,
 				A9603F801F4DABDC00BF57B1 /* LaunchScreen.storyboard in Resources */,
