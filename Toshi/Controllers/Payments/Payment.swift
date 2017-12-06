@@ -21,13 +21,7 @@ class PaymentManager {
         let ethValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
         let message = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, paymentAddress)
 
-        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: message, approveHandler: { [weak self] in
-            self?.send(with: parameters, completion: completion)
-        })
-    }
-
-    private func send(with parameters: [String: Any], completion: @escaping SuccessCompletion) {
-        EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: message, approveHandler: { [weak self] transaction, error in
 
             guard let transaction = transaction else {
 
@@ -40,32 +34,29 @@ class PaymentManager {
                 return
             }
 
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+            self?.send(with: parameters, transaction: transaction, completion: completion)
+        })
+    }
 
-            EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
+    private func send(with parameters: [String: Any], transaction: String, completion: @escaping SuccessCompletion) {
 
-                DispatchQueue.main.async {
-                    guard success else {
-                        self?.showPaymentFailedMessage(for: error?.description ?? ToshiError.genericError.description)
-                        return
-                    }
+        let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-                    self?.showPaymentSucceededMessage(completion)
+        EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
+
+            DispatchQueue.main.async {
+                guard success else {
+                    self?.showPaymentFailedMessage(for: error?.description ?? ToshiError.genericError.description)
+                    return
                 }
+
+                self?.showPaymentSucceededMessage(completion)
             }
         }
     }
     
     func showPaymentFailedMessage(for errorMessage: String) {
-        let alertController = UIAlertController(title: Localized("payment_message_failure_title"), message: errorMessage, preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: Localized("payment_message_button"), style: .default) { _ in
-            alertController.dismiss(animated: true, completion: nil)
-        }
-        
-        alertController.addAction(action)
-        
-        Navigator.presentModally(alertController)
+        Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: errorMessage)
     }
     
     func showPaymentSucceededMessage(_ completion: @escaping SuccessCompletion) {

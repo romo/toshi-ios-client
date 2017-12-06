@@ -19,7 +19,7 @@ final class PaymentConfirmation {
 
     public static var shared: PaymentConfirmation = PaymentConfirmation()
 
-    public func present(for parameters: [String: Any], title: String, message: String, presentCompletionHandler: (() -> Void)? = nil, approveHandler: (() -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
+    public func present(for parameters: [String: Any], title: String, message: String, presentCompletionHandler: (() -> Void)? = nil, approveHandler: ((String?, ToshiError?) -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
 
         EthereumAPIClient.shared.transactionSceleton(for: parameters) { sceleton, error in
             var estimatedFeesString = ""
@@ -41,19 +41,23 @@ final class PaymentConfirmation {
                 let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: rate)
 
                 estimatedFeesString = "The estimated Ethereum network fees are \(fiatValueString) (\(feeEthValueString))"
-                print("Transaction fee ethereum value: \(estimatedFeesString)")
 
                 messageText.append("\n\n\(estimatedFeesString)")
 
                 DispatchQueue.main.async {
                     presentCompletionHandler?()
-                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: approveHandler, cancelHandler: cancelHandler)
+                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
+                        approveHandler?(sceleton?["tx"] as? String, error)
+                    }, cancelHandler: cancelHandler)
                 }
 
             } else {
                 DispatchQueue.main.async {
                     presentCompletionHandler?()
-                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: approveHandler, cancelHandler: cancelHandler)
+
+                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
+                        approveHandler?(sceleton?["tx"] as? String, error)
+                    }, cancelHandler: cancelHandler)
                 }
             }
         }

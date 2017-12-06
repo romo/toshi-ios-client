@@ -54,11 +54,11 @@ class ScannerController: ScannerViewController {
         toolbar.setItems([self.cancelItem], animated: true)
     }
 
-    func approvePayment(with parameters: [String: Any], userInfo: UserInfo) {
+    func approvePayment(with parameters: [String: Any], userInfo: UserInfo, tx: String?, error: ToshiError?) {
         isStatusBarHidden = false
         guard !userInfo.isLocal else {
             if let tabbarController = self.presentingViewController as? TabBarController {
-                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters)
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: tx)
             }
 
             return
@@ -66,20 +66,17 @@ class ScannerController: ScannerViewController {
 
         showActivityIndicator()
 
-        EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
+        guard let transaction = tx else {
+                self.hideActivityIndicator()
+                self.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
+                self.startScanning()
 
-            guard
-                let transaction = transaction,
-                let signedTransaction = self?.createSignedTransaction(from: transaction) else {
-                    self?.hideActivityIndicator()
-                    self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
-                    self?.startScanning()
-
-                    return
-            }
-
-            self?.sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)
+                return
         }
+
+        let signedTransaction = self.createSignedTransaction(from: transaction)
+
+        sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)
     }
 }
 
@@ -112,7 +109,8 @@ extension ScannerController: PaymentPresentable {
         isStatusBarHidden = false
         guard !userInfo.isLocal else {
             if let tabbarController = self.presentingViewController as? TabBarController {
-                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters)
+                // we do not use that alert view currently, need to adjust unsigned tramsaction here, pass nil now
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: nil)
             }
 
             return

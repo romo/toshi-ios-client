@@ -264,8 +264,8 @@ extension SOFAWebController: WKScriptMessageHandler {
                     let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
                     let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user?.name ?? to)
 
-                    PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] in
-                        self?.approvePayment(with: parameters, userInfo: userInfo)
+                    PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] tx, _ in
+                        self?.approvePayment(with: parameters, userInfo: userInfo, transaction: tx)
                     }, cancelHandler: { [weak self] in
                         let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
                         self?.jsCallback(callbackId: callbackId, payload: payload)
@@ -300,21 +300,18 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo) {
-        etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, _ in
-            guard let strongSelf = self else { return }
+    private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo, transaction: String?) {
 
-            let payload: String
+        let payload: String
 
-            if let tx = transaction,
-                let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
-                payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
-            } else {
-                payload = SOFAResponseConstants.skeletonErrorJSON
-            }
-
-            strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: payload)
+        if let tx = transaction,
+            let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
+            payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
+        } else {
+            payload = SOFAResponseConstants.skeletonErrorJSON
         }
+
+        jsCallback(callbackId: callbackId, payload: payload)
     }
 
     private func presentPersonalMessageSignAlert(_ message: String, signHandler: @escaping (() -> Void)) {

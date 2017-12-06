@@ -114,7 +114,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         selectedIndex = UserDefaultsWrapper.tabBarSelectedIndex
     }
 
-    func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
+    func openPaymentMessage(to address: String, parameters: [String: Any]? = nil, transaction: String?) {
         dismiss(animated: false) {
 
             ChatInteractor.getOrCreateThread(for: address)
@@ -122,7 +122,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
             DispatchQueue.main.async {
                 self.displayMessage(forAddress: address) { controller in
                     if let chatViewController = controller as? ChatViewController, let parameters = parameters {
-                        chatViewController.sendPayment(with: parameters)
+                        chatViewController.sendPayment(with: parameters, transaction: transaction)
                     }
                 }
             }
@@ -277,9 +277,9 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             SoundPlayer.playSound(type: .scanned)
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] in
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] tx, error in
                 if let scannerController = self?.scannerController as? ScannerController {
-                    scannerController.approvePayment(with: parameters, userInfo: userInfo)
+                    scannerController.approvePayment(with: parameters, userInfo: userInfo, tx: tx, error: error)
                 } else {
                     scannerController.startScanning()
                 }

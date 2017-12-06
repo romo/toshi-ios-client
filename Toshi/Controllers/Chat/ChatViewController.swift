@@ -232,9 +232,9 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         ethereumPromptView.height(ChatFloatingHeaderView.height)
     }
 
-    func sendPayment(with parameters: [String: Any]) {
+    func sendPayment(with parameters: [String: Any], transaction: String?) {
         showActivityIndicator()
-        viewModel.interactor.sendPayment(with: parameters) { [weak self] success in
+        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
             if success {
                 self?.updateBalance()
             }
@@ -354,13 +354,13 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         return parameters
     }
     
-    private func approvePaymentForIndexPath(_ indexPath: IndexPath) {
+    private func approvePaymentForIndexPath(_ indexPath: IndexPath, transaction: String?) {
 
         guard let parameters = transactionParameter(for: indexPath) else { return }
 
         showActivityIndicator()
 
-        viewModel.interactor.sendPayment(with: parameters) { [weak self] success in
+        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
             let state: PaymentState = success ? .approved : .failed
             self?.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {
@@ -577,8 +577,13 @@ extension ChatViewController: MessagesPaymentCellDelegate {
             PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
 
                 self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] in
-                self?.approvePaymentForIndexPath(indexPath)
+            }, approveHandler: { [weak self] tx, error in
+
+                if let error = error {
+                    Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: error.description)
+                }
+
+                self?.approvePaymentForIndexPath(indexPath, transaction: tx)
             })
         }
     }
