@@ -54,11 +54,11 @@ class ScannerController: ScannerViewController {
         toolbar.setItems([self.cancelItem], animated: true)
     }
 
-    func approvePayment(with parameters: [String: Any], userInfo: UserInfo, tx: String?, error: ToshiError?) {
+    func approvePayment(with parameters: [String: Any], userInfo: UserInfo, transaction: String?, error: ToshiError?) {
         isStatusBarHidden = false
         guard !userInfo.isLocal else {
             if let tabbarController = self.presentingViewController as? TabBarController {
-                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: tx)
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: transaction)
             }
 
             return
@@ -66,7 +66,7 @@ class ScannerController: ScannerViewController {
 
         showActivityIndicator()
 
-        guard let transaction = tx else {
+        guard let transaction = transaction else {
                 self.hideActivityIndicator()
                 self.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
                 self.startScanning()

@@ -577,13 +577,13 @@ extension ChatViewController: MessagesPaymentCellDelegate {
             PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
 
                 self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] tx, error in
+            }, approveHandler: { [weak self] transaction, error in
 
                 if let error = error {
                     Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: error.description)
                 }
 
-                self?.approvePaymentForIndexPath(indexPath, transaction: tx)
+                self?.approvePaymentForIndexPath(indexPath, transaction: transaction)
             })
         }
     }

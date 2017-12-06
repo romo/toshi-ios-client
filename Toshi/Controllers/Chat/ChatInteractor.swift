@@ -124,9 +124,9 @@ final class ChatInteractor: NSObject {
             let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
             let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user.name)
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] tx, error in
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
 
-                guard let transaction = tx else {
+                guard let transaction = transaction else {
 
                     if let error = error {
                         DispatchQueue.main.async {
