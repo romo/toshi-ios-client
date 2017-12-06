@@ -248,7 +248,7 @@ extension SOFAWebController: WKScriptMessageHandler {
                 parameters["gasPrice"] = gasPrice
             }
 
-            if let to = tx["to"] as? String {
+            if let to = tx["to"] as? String, let value = parameters["value"] as? String {
                 IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
                     var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
 
@@ -258,11 +258,19 @@ extension SOFAWebController: WKScriptMessageHandler {
                         userInfo.name = user.name
                         userInfo.isLocal = true
                     }
-                    self?.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
+
+                    let decimalValue = NSDecimalNumber(hexadecimalString: value)
+                    let fiatValueString = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
+                    let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
+                    let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user?.name ?? to)
+
+                    PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] in
+                        self?.approvePayment(with: parameters, userInfo: userInfo)
+                    }, cancelHandler: { [weak self] in
+                        let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+                        self?.jsCallback(callbackId: callbackId, payload: payload)
+                    })
                 }
-            } else {
-                let userInfo = UserInfo(address: "", paymentAddress: "", avatarPath: nil, name: "New Contract", username: "", isLocal: false)
-                displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
         case .publishTransaction:
             guard let messageBody = message.body as? [String: Any],
@@ -289,6 +297,23 @@ extension SOFAWebController: WKScriptMessageHandler {
         case .approveTransaction:
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
             jsCallback(callbackId: callbackId, payload: payload)
+        }
+    }
+
+    private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo) {
+        etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, _ in
+            guard let strongSelf = self else { return }
+
+            let payload: String
+
+            if let tx = transaction,
+                let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
+                payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
+            } else {
+                payload = SOFAResponseConstants.skeletonErrorJSON
+            }
+
+            strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: payload)
         }
     }
 

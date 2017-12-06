@@ -226,10 +226,17 @@ extension TabBarController: ScannerViewControllerDelegate {
                     self?.dismiss(animated: true)
                 }
             case .paymentRequest(let weiValue, let address, let username, _):
+
+                let valueInWei = NSDecimalNumber(hexadecimalString: weiValue)
+                let fiatValueString = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
+                let ethValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
+
                 if let username = username {
-                    proceedToPayment(username: username, weiValue: weiValue)
+                    let confirmationText = String(format: Localized("payment_request_confirmation_warning_message"), fiatValueString, ethValueString, username)
+                    proceedToPayment(username: username, weiValue: weiValue, confirmationText: confirmationText)
                 } else if let address = address {
-                    proceedToPayment(address: address, weiValue: weiValue)
+                    let confirmationText = String(format: Localized("payment_request_confirmation_warning_message"), fiatValueString, ethValueString, address)
+                    proceedToPayment(address: address, weiValue: weiValue, confirmationText: confirmationText)
                 }
             case .addContact(let username):
                 let contactName = TokenUser.name(from: username)
@@ -242,32 +249,44 @@ extension TabBarController: ScannerViewControllerDelegate {
         }
     }
 
-    private func proceedToPayment(address: String, weiValue: String?) {
+    private func proceedToPayment(address: String, weiValue: String?, confirmationText: String) {
         let userInfo = UserInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
         var parameters = ["from": Cereal.shared.paymentAddress, "to": address]
         parameters["value"] = weiValue
 
-        proceedToPayment(userInfo: userInfo, parameters: parameters)
+        proceedToPayment(userInfo: userInfo, parameters: parameters, confirmationText: confirmationText)
     }
 
-    private func proceedToPayment(username: String, weiValue: String?) {
+    private func proceedToPayment(username: String, weiValue: String?, confirmationText: String) {
         idAPIClient.retrieveUser(username: username) { [weak self] contact in
-            if let contact = contact {
+            if let contact = contact, let validWeiValue = weiValue {
                 var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
-                parameters["value"] = weiValue
+                parameters["value"] = validWeiValue
 
-                self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters)
+                self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters, confirmationText: confirmationText)
             } else {
                 self?.scannerController.startScanning()
             }
         }
     }
 
-    private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any]) {
-        if parameters["value"] != nil, let scannerController = self.scannerController as? PaymentPresentable {
+    private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
+
+        if parameters["value"] != nil, let scannerController = self.scannerController as? ScannerController {
             scannerController.setStatusBarHidden(true)
-            scannerController.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
+
             SoundPlayer.playSound(type: .scanned)
+
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] in
+                if let scannerController = self?.scannerController as? ScannerController {
+                    scannerController.approvePayment(with: parameters, userInfo: userInfo)
+                } else {
+                    scannerController.startScanning()
+                }
+            }, cancelHandler: {
+                scannerController.startScanning()
+            })
+
         } else {
             scannerController.startScanning()
         }

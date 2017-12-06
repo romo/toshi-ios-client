@@ -16,20 +16,30 @@ class PaymentManager {
             "to": paymentAddress,
             "value": valueInWei.toHexString
         ]
-        
+
+        let fiatValueString = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
+        let ethValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
+        let message = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, paymentAddress)
+
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: message, approveHandler: { [weak self] in
+            self?.send(with: parameters, completion: completion)
+        })
+    }
+
+    private func send(with parameters: [String: Any], completion: @escaping SuccessCompletion) {
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
-            
+
             guard let transaction = transaction else {
-                
+
                 if let error = error {
                     DispatchQueue.main.async {
                         self?.showPaymentFailedMessage(for: error.description)
                     }
                 }
-                
+
                 return
             }
-            
+
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
             EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in

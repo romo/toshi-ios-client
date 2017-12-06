@@ -120,20 +120,17 @@ final class ChatInteractor: NSObject {
                 "value": value.toHexString
             ]
 
-            self?.sendPayment(with: parameters, completion: completion)
+            let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
+            let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
+            let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user.name)
+
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] in
+
+                self?.sendPayment(with: parameters, completion: completion)
+                }, cancelHandler: { [weak self] in
+                    self?.output?.didFinishRequest()
+            })
         }
-    }
-
-    func sendPayment(to destinationAddress: String, in value: NSDecimalNumber, completion: ((Bool) -> Void)? = nil) {
-        guard EthereumAddress.validate(destinationAddress) else { return }
-
-        let parameters: [String: Any] = [
-          "from": Cereal.shared.paymentAddress,
-          "to": destinationAddress,
-          "value": value.toHexString
-        ]
-
-        self.sendPayment(with: parameters, completion: completion)
     }
 
     func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {

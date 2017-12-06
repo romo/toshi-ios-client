@@ -240,8 +240,6 @@ extension ProfileViewController: PaymentControllerDelegate {
         defer { dismiss(animated: true) }
         guard let value = valueInWei else { return }
 
-        let etherAPIClient = EthereumAPIClient.shared
-
         let parameters: [String: Any] = [
             "from": Cereal.shared.paymentAddress,
             "to": self.contact.paymentAddress,
@@ -249,6 +247,22 @@ extension ProfileViewController: PaymentControllerDelegate {
         ]
 
         showActivityIndicator()
+
+        let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
+        let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
+        let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, self.contact.name)
+
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+            self?.hideActivityIndicator()
+            }, approveHandler: { [weak self] in
+                self?.sendPayment(with: parameters)
+        })
+    }
+
+    private func sendPayment(with parameters: [String: Any]) {
+        showActivityIndicator()
+
+        let etherAPIClient = EthereumAPIClient.shared
 
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
 
@@ -273,11 +287,11 @@ extension ProfileViewController: PaymentControllerDelegate {
                     return
                 }
 
-                if let json = json?.dictionary {
+                if let json = json?.dictionary, let value = parameters["value"] as? String {
                     guard let txHash = json["tx_hash"] as? String else {
                         CrashlyticsLogger.log("Error recovering transaction hash.")
                         fatalError("Error recovering transaction hash.") }
-                    let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
+                    let payment = SofaPayment(txHash: txHash, valueHex: value)
 
                     // send message to thread
                     let thread = ChatInteractor.getOrCreateThread(for: strongSelf.contact.address)

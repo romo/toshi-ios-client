@@ -123,6 +123,9 @@
 		2BDBB5791F7B832700A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
 		2BDBB57A1F7B832A00A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
 		2BDBB57B1F7B832A00A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
+		2BE3C4FB1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */; };
+		2BE3C4FC1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */; };
+		2BE3C4FD1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */; };
 		2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */; };
@@ -889,6 +892,7 @@
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
 		2BDBB5781F7B832300A0ECA0 /* APIKeys */ = {isa = PBXFileReference; lastKnownFileType = folder; path = APIKeys; sourceTree = "<group>"; };
 		2BDBB5801F7B9C2000A0ECA0 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
+		2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentConfirmation.swift; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
 		2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAdjustable.swift; sourceTree = "<group>"; };
 		2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarManager.swift; sourceTree = "<group>"; };
@@ -1769,6 +1773,7 @@
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
+				2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 			);
@@ -2919,6 +2924,7 @@
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
+				2BE3C4FD1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */,
 				2B953AC71FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
 				A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */,
 				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
@@ -3110,6 +3116,7 @@
 				A9BA6B7B1EF7D582007C3206 /* DepositMoneyHeader.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				A916290F1F3C3A02008A7F36 /* PaymentAddressInputView.swift in Sources */,
+				2BE3C4FB1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */,
 				2B953AC51FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
@@ -3301,6 +3308,7 @@
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
 				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
 				A9603F041F4DABDC00BF57B1 /* TabBarController.swift in Sources */,
+				2BE3C4FC1FD7EE2E001F6919 /* PaymentConfirmation.swift in Sources */,
 				2B953AC61FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
 				A9603F061F4DABDC00BF57B1 /* IconLabelButton.swift in Sources */,
 				A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */,

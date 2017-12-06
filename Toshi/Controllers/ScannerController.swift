@@ -53,6 +53,34 @@ class ScannerController: ScannerViewController {
     override func setupToolbarItems() {
         toolbar.setItems([self.cancelItem], animated: true)
     }
+
+    func approvePayment(with parameters: [String: Any], userInfo: UserInfo) {
+        isStatusBarHidden = false
+        guard !userInfo.isLocal else {
+            if let tabbarController = self.presentingViewController as? TabBarController {
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters)
+            }
+
+            return
+        }
+
+        showActivityIndicator()
+
+        EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
+
+            guard
+                let transaction = transaction,
+                let signedTransaction = self?.createSignedTransaction(from: transaction) else {
+                    self?.hideActivityIndicator()
+                    self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
+                    self?.startScanning()
+
+                    return
+            }
+
+            self?.sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)
+        }
+    }
 }
 
 extension ScannerController: ActivityIndicating {
@@ -100,8 +128,8 @@ extension ScannerController: PaymentPresentable {
                     self?.hideActivityIndicator()
                     self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
                     self?.startScanning()
-                
-                return
+
+                    return
             }
 
             self?.sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)

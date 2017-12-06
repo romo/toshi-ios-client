@@ -337,22 +337,34 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             viewModel.interactor.sendMessage(sofaWrapper: command)
         }
     }
+
+    private func transactionParameter(for indexPath: IndexPath) -> [String: Any]? {
+        guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return nil }
+        guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { return nil }
+
+        let destinationAddress = paymentRequest.destinationAddress
+        guard EthereumAddress.validate(destinationAddress) else { return nil }
+
+        let parameters: [String: Any] = [
+            "from": Cereal.shared.paymentAddress,
+            "to": destinationAddress,
+            "value": paymentRequest.value.toHexString
+        ]
+
+        return parameters
+    }
     
     private func approvePaymentForIndexPath(_ indexPath: IndexPath) {
-        guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
-        
-        adjustToPaymentState(.pendingConfirmation, at: indexPath)
-        
-        guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { return }
-        
+
+        guard let parameters = transactionParameter(for: indexPath) else { return }
+
         showActivityIndicator()
-        
-        viewModel.interactor.sendPayment(to: paymentRequest.destinationAddress, in: paymentRequest.value) { [weak self] success in
+
+        viewModel.interactor.sendPayment(with: parameters) { [weak self] success in
             let state: PaymentState = success ? .approved : .failed
             self?.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {
-                self?.hideActiveNetworkViewIfNeeded()
-
+                self?.hideActivityIndicator()
                 self?.updateBalance()
             }
         }
@@ -551,26 +563,24 @@ extension ChatViewController: MessagesPaymentCellDelegate {
     func approvePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) else { return }
         guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
-        
-        let messageText: String
+
+        var messageText: String
         if let fiat = message.fiatValueString, let eth = message.ethereumValueString {
-            messageText = String(format: Localized("payment_request_confirmation_warning_message"), fiat, eth, thread.name())
+            messageText = String(format: Localized("payment_request_confirmation_warning_message"), fiat, eth, self.thread.name())
         } else {
-            messageText = String(format: Localized("payment_request_confirmation_warning_message_fallback"), thread.name())
+            messageText = String(format: Localized("payment_request_confirmation_warning_message_fallback"), self.thread.name())
         }
-        
-        let alert = UIAlertController(title: Localized("payment_request_confirmation_warning_title"), message: messageText, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .default, handler: { _ in
-            alert.dismiss(animated: true, completion: nil)
-        }))
-        
-        alert.addAction(UIAlertAction(title: Localized("payment_request_confirmation_warning_action_confirm"), style: .default, handler: { _ in
-            alert.dismiss(animated: true, completion: nil)
-            self.approvePaymentForIndexPath(indexPath)
-        }))
-        
-        Navigator.presentModally(alert)
+
+        if let parameters = transactionParameter(for: indexPath) {
+            showActivityIndicator()
+
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+
+                self?.hideActivityIndicator()
+            }, approveHandler: { [weak self] in
+                self?.approvePaymentForIndexPath(indexPath)
+            })
+        }
     }
 
     func declinePayment(for cell: MessagesPaymentCell) {
