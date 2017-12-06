@@ -16,9 +16,9 @@
 import Foundation
 import UserNotifications
 
-public class BackgroundNotificationHandler: NSObject {
+class BackgroundNotificationHandler: NSObject {
 
-    @objc public static func handle(_ notification: UNNotification, _ completion: @escaping ((_ options: UNNotificationPresentationOptions) -> Void)) {
+    @objc static func handle(_ notification: UNNotification, _ completion: @escaping ((_ options: UNNotificationPresentationOptions) -> Void)) {
 
         let body = notification.request.content.body
 

@@ -18,11 +18,11 @@ import Foundation
 /// App receives that with list of values it needs to continue.
 /// Answered with a SOFA::Init message (SofaMetadataResponse).
 final class SofaInitialRequest: SofaWrapper {
-    public override var type: SofaType {
+    override var type: SofaType {
         return .initialRequest
     }
 
-    open lazy var values: [String] = {
+    lazy var values: [String] = {
         if let values = self.json["values"] as? [String] {
             return values
         }

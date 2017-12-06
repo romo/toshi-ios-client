@@ -12,7 +12,6 @@ final class SignInViewController: UIViewController {
     static let maxItemCount: Int = 12
     private var shouldDeselectWord = false
     private var userDidPastePassphrase = false
-    private var maxCharactersCount = 0
     
     var activeIndexPath: IndexPath? {
         guard let selectedCell = signInView?.collectionView.visibleCells.first(where: { $0.isSelected }) else { return nil }
@@ -22,12 +21,6 @@ final class SignInViewController: UIViewController {
     var activeCell: SignInCell? {
         guard let activeIndexPath = activeIndexPath else { return nil }
         return signInView?.collectionView.cellForItem(at: activeIndexPath) as? SignInCell
-    }
-
-    var passwords: [String]? = nil {
-        didSet {
-            signInView?.collectionView.reloadData()
-        }
     }
 
     override func loadView() {
@@ -43,14 +36,8 @@ final class SignInViewController: UIViewController {
         signInView?.textField.deleteDelegate = self
 
         setupActivityIndicator()
-
-        loadPasswords { [weak self] in
-            self?.passwords = $0
-            self?.signInView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
-            if let maxCharactersCount = $0.max(by: { $1.count > $0.count })?.count {
-                self?.maxCharactersCount = maxCharactersCount
-            }
-        }
+        
+        signInView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
 
         signInView?.footerView.explanationButton.addTarget(self, action: #selector(showExplanation(_:)), for: .touchUpInside)
         signInView?.footerView.signInButton.addTarget(self, action: #selector(signIn(_:)), for: .touchUpInside)
@@ -142,28 +129,6 @@ final class SignInViewController: UIViewController {
         }
     }
 
-    private func loadPasswords(_ completion: @escaping ([String]) -> Void) {
-        guard let path = Bundle.main.path(forResource: "passwords-library", ofType: "txt") else { return }
-        
-        do {
-            let data = try String(contentsOfFile: path, encoding: .utf8)
-            completion(data.components(separatedBy: .newlines))
-        } catch {
-            CrashlyticsLogger.log("Can not load passwords file")
-            fatalError("Can't load data from file.")
-        }
-    }
-
-    private func libraryComparison(for text: String) -> (match: String?, isSingleOccurrence: Bool) {
-        guard !text.isEmpty else { return (nil, false) }
-
-        let filtered = passwords?.filter {
-            $0.range(of: text, options: [.caseInsensitive, .anchored]) != nil
-        }
-
-        return (filtered?.first, filtered?.count == 1)
-    }
-
     private func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
         signInView?.textField.text = nil
 
@@ -248,7 +213,7 @@ extension SignInViewController: ActivityIndicating {
 
 extension SignInViewController: UIGestureRecognizerDelegate {
     
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
@@ -291,7 +256,7 @@ extension SignInViewController: TextEditingOptionsViewControllerDelegate {
         
         userDidPastePassphrase = true
         
-        enteredStrings = pasted.components(separatedBy: " ").map { String($0.prefix(maxCharactersCount)) }
+        enteredStrings = pasted.components(separatedBy: " ").map { String($0.prefix(PasswordValidator.shared.maxCharacterCount)) }
         if enteredStrings.count > SignInViewController.maxItemCount {
             enteredStrings.removeSubrange(SignInViewController.maxItemCount...)
         }
@@ -326,7 +291,7 @@ extension SignInViewController: UICollectionViewDataSource {
                 return cell
             }
 
-            let comparison = libraryComparison(for: text)
+            let comparison = PasswordValidator.shared.validateWord(for: text)
 
             if let match = comparison.match {
                 cell.setText(text, with: match)
@@ -346,7 +311,7 @@ extension SignInViewController: UICollectionViewDataSource {
 
 extension SignInViewController: UITextFieldDelegate {
 
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let indexPath = activeIndexPath else { return false }
         guard let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return false }
         
@@ -360,7 +325,7 @@ extension SignInViewController: UITextFieldDelegate {
 
         enteredStrings[indexPath.item] = text
         
-        let comparison = libraryComparison(for: text)
+        let comparison = PasswordValidator.shared.validateWord(for: text)
         
         if let match = comparison.match {
             activeCell?.setText(text, with: match)
@@ -377,7 +342,7 @@ extension SignInViewController: UITextFieldDelegate {
         signInView?.collectionView.collectionViewLayout.invalidateLayout()
         signInView?.layoutIfNeeded()
         
-        if text.count >= maxCharactersCount {
+        if text.count >= PasswordValidator.shared.maxCharacterCount {
             acceptItem(at: indexPath)
             
             return false

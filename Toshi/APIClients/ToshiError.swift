@@ -16,7 +16,7 @@
 import Foundation
 import Teapot
 
-public struct ToshiError: Error, CustomStringConvertible {
+struct ToshiError: Error, CustomStringConvertible {
     static func dataTaskError(withUnderLyingError error: Error) -> TeapotError {
         let errorDescription = String(format: NSLocalizedString("toshi_error_data_task_error", bundle: Teapot.localizationBundle, comment: ""), error.localizedDescription)
 
@@ -34,7 +34,7 @@ public struct ToshiError: Error, CustomStringConvertible {
 
     static let genericError = ToshiError(withType: .generic, description: Localized("toshi_generic_error"))
 
-    public enum ErrorType: Int {
+    enum ErrorType: Int {
         case dataTaskError
         case invalidPayload
         case invalidRequestPath
@@ -43,10 +43,10 @@ public struct ToshiError: Error, CustomStringConvertible {
         case generic
     }
 
-    public let type: ErrorType
-    public let description: String
-    public let responseStatus: Int?
-    public let underlyingError: Error?
+    let type: ErrorType
+    let description: String
+    let responseStatus: Int?
+    let underlyingError: Error?
 
     init(withType errorType: ErrorType, description: String, responseStatus: Int? = nil, underlyingError: Error? = nil) {
         self.type = errorType

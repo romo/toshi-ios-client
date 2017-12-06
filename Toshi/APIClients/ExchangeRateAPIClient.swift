@@ -19,7 +19,7 @@ import AwesomeCache
 
 let ExchangeRateClient = ExchangeRateAPIClient.shared
 
-public final class ExchangeRateAPIClient {
+final class ExchangeRateAPIClient {
 
     static let shared: ExchangeRateAPIClient = ExchangeRateAPIClient()
 
@@ -36,10 +36,10 @@ public final class ExchangeRateAPIClient {
         }
     }()
 
-    public var teapot: Teapot
-    public var baseURL: URL
+    var teapot: Teapot
+    var baseURL: URL
 
-    public var exchangeRate: Decimal {
+    var exchangeRate: Decimal {
         if let rate = Yap.sharedInstance.retrieveObject(for: ExchangeRateAPIClient.collectionKey) as? Decimal {
             return rate
         } else {
@@ -67,7 +67,7 @@ public final class ExchangeRateAPIClient {
         }
     }
 
-    public func updateRate(_ completion: @escaping ((_ rate: Decimal?) -> Void) = { _ in }) {
+    func updateRate(_ completion: @escaping ((_ rate: Decimal?) -> Void) = { _ in }) {
         getRate { rate in
             if rate != nil {
                 Yap.sharedInstance.insert(object: rate, for: ExchangeRateAPIClient.collectionKey)
@@ -79,7 +79,7 @@ public final class ExchangeRateAPIClient {
         }
     }
 
-    public func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
+    func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
         let code = TokenUser.current?.localCurrency ?? TokenUser.defaultCurrency
 
         teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
@@ -98,7 +98,7 @@ public final class ExchangeRateAPIClient {
         }
     }
 
-    public func getCurrencies(_ completion: @escaping (([Currency]) -> Void)) {
+    func getCurrencies(_ completion: @escaping (([Currency]) -> Void)) {
 
         if let data = cache.object(forKey: currenciesCacheKey), let currencies = data.objects {
             completion(currencies)

@@ -17,42 +17,42 @@ import Foundation
 
 final class SofaPayment: SofaWrapper {
 
-    public enum Status: String {
+    enum Status: String {
         case unconfirmed
         case confirmed
         case error
     }
 
-    public var status: Status {
+    var status: Status {
         guard let status = self.json["status"] as? String else { return .unconfirmed }
         return Status(rawValue: status) ?? .unconfirmed
     }
 
-    public var recipientAddress: String? {
+    var recipientAddress: String? {
         return self.json["toAddress"] as? String
     }
 
-    public var senderAddress: String? {
+    var senderAddress: String? {
         return self.json["fromAddress"] as? String
     }
 
-    public override var type: SofaType {
+    override var type: SofaType {
         return .payment
     }
 
-    public var value: NSDecimalNumber {
+    var value: NSDecimalNumber {
         guard let hexValue = self.json["value"] as? String else { return NSDecimalNumber.zero }
 
         return NSDecimalNumber(hexadecimalString: hexValue)
     }
 
-    public var fiatValueString: String {
+    var fiatValueString: String {
         guard let string = self.json["fiatValueString"] as? String else { return "" }
 
         return string
     }
 
-    public convenience init(txHash: String, valueHex: String) {
+    convenience init(txHash: String, valueHex: String) {
 
         let payment: [String: String] = [
             "status": Status.unconfirmed.rawValue,

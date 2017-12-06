@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Convert between strings in arbitrary base, ported from http://danvk.org/hex2dec.html
-public struct BaseConverter {
+struct BaseConverter {
     let base: Int
 
     // Adds two arrays for the given base (10 or 16)
@@ -86,7 +86,7 @@ public struct BaseConverter {
         return ary
     }
 
-    public static func convertBase(_ str: String, fromBase: Int, toBase: Int) -> String {
+    static func convertBase(_ str: String, fromBase: Int, toBase: Int) -> String {
         let fromBaseConverter = self.init(base: fromBase)
         let toBaseConverter = self.init(base: toBase)
 
@@ -185,11 +185,11 @@ public struct BaseConverter {
         }
     }
 
-    public static func decToHex(_ decStr: String) -> String {
+    static func decToHex(_ decStr: String) -> String {
         return convertBase(decStr, fromBase: 10, toBase: 16)
     }
 
-    public static func hexToDec(_ hexStr: String) -> String {
+    static func hexToDec(_ hexStr: String) -> String {
         return convertBase(hexStr, fromBase: 16, toBase: 10)
     }
 }

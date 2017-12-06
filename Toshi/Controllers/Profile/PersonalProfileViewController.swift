@@ -17,7 +17,7 @@ import UIKit
 import SweetUIKit
 import CoreImage
 
-open class PersonalProfileViewController: UIViewController {
+class PersonalProfileViewController: UIViewController {
 
     private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -25,22 +25,22 @@ open class PersonalProfileViewController: UIViewController {
 
     private var personalProfileView: ProfileView? { return view as? ProfileView }
 
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         edgesForExtendedLayout = .bottom
         title = "Profile"
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("")
     }
 
-    open override func loadView() {
+    override func loadView() {
         view = ProfileView(viewType: .personalProfile)
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.lightGrayBackgroundColor
@@ -49,7 +49,7 @@ open class PersonalProfileViewController: UIViewController {
         updateReputation()
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)

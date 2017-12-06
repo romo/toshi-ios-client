@@ -42,7 +42,7 @@ private func shouldDebugLog() -> Bool {
  
  - parameter message:  The message you wish to log out.
  */
-public func DLog(_ message: @autoclosure () -> String, filePath: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
+func DLog(_ message: @autoclosure () -> String, filePath: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
     guard shouldDebugLog() else { return }
     
     detailedLog(message(), String(describing: filePath), String(describing: function), line)
@@ -53,7 +53,7 @@ public func DLog(_ message: @autoclosure () -> String, filePath: StaticString = 
  
  - parameter message:  The message you wish to log out.
  */
-public func ALog(_ message: @autoclosure () -> String, filePath: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
+func ALog(_ message: @autoclosure () -> String, filePath: StaticString = #file, function: StaticString = #function, line: UInt = #line) {
     detailedLog(message(), String(describing: filePath), String(describing: function), line)
 }
     

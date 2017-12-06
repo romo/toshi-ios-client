@@ -19,7 +19,7 @@ import SweetFoundation
 import SweetSwift
 import TinyConstraints
 
-open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptiable {
+class FavoritesController: SweetTableController, KeyboardAdjustable, Emptiable {
     
     let emptyView = EmptyView(title: Localized("favorites_empty_title"), description: Localized("favorites_empty_description"), buttonTitle: Localized("invite_friends_action_title"))
     
@@ -132,7 +132,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         return navigationController?.presentingViewController != nil
     }
     
-    public init() {
+    init() {
         super.init(style: .plain)
 
         if TokenUser.current != nil {
@@ -158,11 +158,11 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         registerDatabaseNotifications()
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("")
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         registerForKeyboardNotifications()
@@ -218,7 +218,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         dismiss(animated: true)
     }
     
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         title = isPresentedModally ? Localized("favorites_navigation_title_new_chat") : Localized("favorites_navigation_title")
@@ -229,13 +229,13 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         showOrHideEmptyState()
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         scrollViewBottomInset = tableView.contentInset.bottom
     }
 
-    open override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         for view in searchController.searchBar.subviews {
@@ -439,15 +439,15 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
 
 extension FavoritesController: UITableViewDataSource {
 
-    open func numberOfSections(in _: UITableView) -> Int {
+    func numberOfSections(in _: UITableView) -> Int {
         return Int(mappings.numberOfSections())
     }
 
-    open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(mappings.numberOfItems(inSection: UInt(section)))
     }
 
-    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ContactCell.self, for: indexPath)
         cell.contact = contact(at: indexPath)
 
@@ -457,7 +457,7 @@ extension FavoritesController: UITableViewDataSource {
 
 extension FavoritesController: UITableViewDelegate {
 
-    public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         searchController.searchBar.resignFirstResponder()
         
@@ -482,7 +482,7 @@ extension FavoritesController: UITableViewDelegate {
 
 extension FavoritesController: UISearchBarDelegate {
 
-    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         
         if !isPresentedModally {
@@ -493,7 +493,7 @@ extension FavoritesController: UISearchBarDelegate {
 
 extension FavoritesController: UISearchResultsUpdating {
 
-    public func updateSearchResults(for searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
 
         databaseConnection.readWrite { [weak self] transaction in
             guard let strongSelf = self else { return }

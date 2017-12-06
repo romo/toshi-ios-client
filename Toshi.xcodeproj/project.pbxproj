@@ -137,6 +137,10 @@
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
+		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
+		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
+		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
+		33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -903,6 +907,8 @@
 		2F1B2E5A8052289054B2DCDD /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
+		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
+		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -1299,20 +1305,21 @@
 			isa = PBXGroup;
 			children = (
 				D197B18BC61D2FA9F500E49F /* Mocks */,
-				D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */,
 				D197B00DD27312EDFE1B9ECB /* AppsAPIClientTests.swift */,
+				6AAB66311FC4508600C45149 /* CerealTests.swift */,
 				D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */,
-				D197B6D88C3CCC7B7A890925 /* RatingsClientTests.swift */,
+				D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */,
 				84FFE1E71F3C7F39008CEEF2 /* EthereumAddressTests.swift */,
 				D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */,
 				14147EA51E8119F0006BD47B /* Info.plist */,
-				84C459011F41B7AA00D534B8 /* QRCodeIntentTests.swift */,
 				D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */,
-				D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */,
+				33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */,
+				84C459011F41B7AA00D534B8 /* QRCodeIntentTests.swift */,
+				D197B6D88C3CCC7B7A890925 /* RatingsClientTests.swift */,
+				6A369A391FBF2AB50099C2FF /* RLPTests.swift */,
 				D197BCEB0A1FF98FE303EDBD /* SofaIdentifierTests.swift */,
 				D197B6AD4DEFD836C0ECA908 /* SofaWrapperTests.swift */,
-				6A369A391FBF2AB50099C2FF /* RLPTests.swift */,
-				6AAB66311FC4508600C45149 /* CerealTests.swift */,
+				D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */,
 				33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */,
 			);
 			path = Tests;
@@ -1426,6 +1433,7 @@
 			children = (
 				339959AA1FCED3D700D69A01 /* DLog.swift */,
 				33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */,
+				33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2775,6 +2783,7 @@
 				D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */,
 				D197B0896EF91C2CCF4C5D78 /* SofaIdentifierTests.swift in Sources */,
 				D197B329C25288ECA41EC3C8 /* SofaWrapperTests.swift in Sources */,
+				33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2809,6 +2818,7 @@
 				A91D72AD1F8785E10093420C /* ChatButtonsCollectionViewLayout.swift in Sources */,
 				A9202E6E1ED850220036E9B7 /* ImagesViewController.swift in Sources */,
 				149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */,
+				33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
 				A9CADC281F94B1CC0096D017 /* BrowseAllViewController.swift in Sources */,
 				A9E1DCDD1F1E2768001A4ABE /* MessagesImageCell.swift in Sources */,
@@ -3001,6 +3011,7 @@
 				A9AC74111E78064500365029 /* TextLabel.swift in Sources */,
 				A91D72A11F877FFA0093420C /* RecentViewController.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
+				33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */,
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
 				A91D72A71F8782DC0093420C /* ChatButtonsView.swift in Sources */,
@@ -3193,6 +3204,7 @@
 				A9603D991F4DABDC00BF57B1 /* SettingsNavigationController.swift in Sources */,
 				A9603D9E1F4DABDC00BF57B1 /* BaseConverter.swift in Sources */,
 				A9CADC271F94B1CC0096D017 /* BrowseAllViewController.swift in Sources */,
+				33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				A9603DA81F4DABDC00BF57B1 /* MessagesImageCell.swift in Sources */,
 				A91D72B01F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
 				A9603DAB1F4DABDC00BF57B1 /* Yap.swift in Sources */,

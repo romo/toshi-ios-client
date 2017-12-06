@@ -15,7 +15,7 @@
 
 import UIKit
 
-public extension UIView {
+extension UIView {
 
     static func highlightAnimation(_ animations: @escaping () -> Void) {
         UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: animations, completion: nil)

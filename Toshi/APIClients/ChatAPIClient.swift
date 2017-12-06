@@ -17,13 +17,13 @@ import UIKit
 import Teapot
 import SweetFoundation
 
-public class ChatAPIClient: NSObject {
+class ChatAPIClient: NSObject {
 
     @objc static let shared: ChatAPIClient = ChatAPIClient()
 
-    public var teapot: Teapot
+    var teapot: Teapot
 
-    public var baseURL: URL
+    var baseURL: URL
 
     private override init() {
         guard let tokenChatServiceBaseURL = Bundle.main.object(forInfoDictionaryKey: "TokenChatServiceBaseURL") as? String, let url = URL(string: tokenChatServiceBaseURL) else { fatalError("TokenChatServiceBaseURL should be provided")}
@@ -54,7 +54,7 @@ public class ChatAPIClient: NSObject {
         }
     }
 
-    @objc public func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
+    @objc func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
         fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()

@@ -15,38 +15,38 @@
 
 import UIKit
 
-public class FavoritesNavigationController: UINavigationController {
+class FavoritesNavigationController: UINavigationController {
 
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
 
-    public override init(rootViewController: UIViewController) {
+    override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
     }
 
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         tabBarItem = UITabBarItem(title: Localized("tab_bar_title_favorites"), image: #imageLiteral(resourceName: "tab4"), tag: 1)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("")
     }
 
-    public override func popViewController(animated: Bool) -> UIViewController? {
+    override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaultsWrapper.selectedContact = nil
         return super.popViewController(animated: animated)
     }
 
-    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+    override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedContact = nil
         return super.popToRootViewController(animated: animated)
     }
 
-    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+    override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedContact = nil
         return super.popToViewController(viewController, animated: animated)
     }

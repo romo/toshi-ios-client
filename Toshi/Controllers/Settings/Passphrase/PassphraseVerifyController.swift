@@ -44,18 +44,18 @@ class PassphraseVerifyController: UIViewController {
 
     var passPhraseViewHeight: CGFloat = 147.0
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("")
     }
 
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         title = Localized("passphrase_verify_navigation_title")
         hidesBottomBarWhenPushed = true
     }
 
-    open override func loadView() {
+    override func loadView() {
         let scrollView = UIScrollView()
 
         view = scrollView

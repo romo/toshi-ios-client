@@ -1,8 +1,8 @@
 import UIKit
 
-final public class PaymentNavigationController: UINavigationController {
+final class PaymentNavigationController: UINavigationController {
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationBar.barStyle = .default

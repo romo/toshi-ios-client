@@ -139,6 +139,6 @@ extension UIBarButtonItem {
     }
 }
 
-public func Localized(_ key: String, tableName: String? = nil, bundle: Bundle = Bundle.main, value: String? = nil, comment: String? = nil) -> String {
+func Localized(_ key: String, tableName: String? = nil, bundle: Bundle = Bundle.main, value: String? = nil, comment: String? = nil) -> String {
     return NSLocalizedString(key, tableName: tableName, bundle: bundle, value: value ?? "", comment: comment ?? "")
 }

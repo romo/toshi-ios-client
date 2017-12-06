@@ -17,7 +17,7 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-open class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
+class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
 
     private static let profileVisibilitySectionTitle = Localized("Profile visibility")
     private static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
@@ -86,11 +86,11 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         return view
     }()
 
-    open override var canBecomeFirstResponder: Bool {
+    override var canBecomeFirstResponder: Bool {
         return true
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = Theme.lightGrayBackgroundColor
@@ -112,19 +112,19 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         addSubviewsAndConstraints()
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         registerForKeyboardNotifications()
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         scrollViewBottomInset = tableView.contentInset.bottom
     }
 
-    open override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         unregisterFromKeyboardNotifications()
@@ -360,11 +360,11 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
 extension ProfileEditController: UIImagePickerControllerDelegate {
 
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
 
         picker.dismiss(animated: true, completion: nil)
 
@@ -378,34 +378,34 @@ extension ProfileEditController: UIImagePickerControllerDelegate {
 
 extension ProfileEditController: UITableViewDelegate {
 
-    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
+    func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 }
 
 extension ProfileEditController: UITableViewDataSource {
 
-    public func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 1 ? "Profile Visibility" : nil
     }
 
-    public func tableView(_: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(_: UITableView, titleForFooterInSection section: Int) -> String? {
         let editingSection = editingSections[section]
 
         return editingSection.footerTitle
     }
 
-    public func numberOfSections(in _: UITableView) -> Int {
+    func numberOfSections(in _: UITableView) -> Int {
         return editingSections.count
     }
 
-    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         let editingSection = editingSections[section]
 
         return editingSection.items.count
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(InputCell.self, for: indexPath)
 
         let section = editingSections[indexPath.section]

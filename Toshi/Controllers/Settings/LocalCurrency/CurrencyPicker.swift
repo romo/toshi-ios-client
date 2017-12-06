@@ -24,7 +24,7 @@ final class CurrencyPicker: UIViewController {
         return view
     }()
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         title = Localized("currency_picker_title")
@@ -34,7 +34,7 @@ final class CurrencyPicker: UIViewController {
         self.tableView.reloadData()
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)
@@ -88,7 +88,7 @@ final class CurrencyPicker: UIViewController {
 }
 
 extension CurrencyPicker: UITableViewDelegate {
-    public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let previousLocalCurrencyIndexPath = currentLocalCurrencyIndexPath
 
         let selectedCode = indexPath.section == 0 ? suggestedCurrencies[indexPath.row].code : otherCurrencies[indexPath.row].code
@@ -105,11 +105,11 @@ extension CurrencyPicker: UITableViewDelegate {
 
 extension CurrencyPicker: UITableViewDataSource {
 
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return suggestedCurrencies.count
@@ -118,7 +118,7 @@ extension CurrencyPicker: UITableViewDataSource {
         }
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
         let currentCurrencyCode = TokenUser.current?.localCurrency
 
@@ -132,7 +132,7 @@ extension CurrencyPicker: UITableViewDataSource {
         return cell
     }
 
-    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
             return suggestedCurrencies.count > 0 ? Localized("currency_picker_header_suggested") : nil

@@ -17,13 +17,13 @@ import Foundation
 
 /// A protocol to allow grabbing an array of all the cases of a string enum.
 /// Inspired by: http://stackoverflow.com/a/32429125/681493
-public protocol StringCaseListable {
+protocol StringCaseListable {
     /// - parameter rawValue: The raw string value. Matches the initializer of RawRepresentable without the Self restrictions.
     init?(rawValue: String)
 }
 
 // MARK: - Default Implementation
-public extension StringCaseListable {
+extension StringCaseListable {
     
     /// - returns: A generated array of all the cases in this enum.
     static var allCases: [Self] {

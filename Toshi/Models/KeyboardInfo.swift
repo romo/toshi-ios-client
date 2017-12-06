@@ -15,13 +15,13 @@
 
 import UIKit
 
-public struct KeyboardInfo {
-    public let beginFrame: CGRect
-    public let endFrame: CGRect
-    public let animationCurve: UIViewAnimationCurve
-    public let animationDuration: TimeInterval
+struct KeyboardInfo {
+    let beginFrame: CGRect
+    let endFrame: CGRect
+    let animationCurve: UIViewAnimationCurve
+    let animationDuration: TimeInterval
 
-    public var animationOptions: UIViewAnimationOptions {
+    var animationOptions: UIViewAnimationOptions {
         switch animationCurve {
         case .easeInOut:
             return .curveEaseInOut

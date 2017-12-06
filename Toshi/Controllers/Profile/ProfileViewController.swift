@@ -18,13 +18,13 @@ import SweetUIKit
 import CoreImage
 import TinyConstraints
 
-public class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController {
 
     private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
 
-    public var contact: TokenUser
+    var contact: TokenUser
 
     private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -38,7 +38,7 @@ public class ProfileViewController: UIViewController {
 
     private var profileView: ProfileView? { return view as? ProfileView }
 
-    public init(contact: TokenUser) {
+    init(contact: TokenUser) {
         self.contact = contact
 
         super.init(nibName: nil, bundle: nil)
@@ -52,11 +52,11 @@ public class ProfileViewController: UIViewController {
         title = "Contact"
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("The method `init?(coder)` is not implemented for this class.")
     }
 
-    open override func loadView() {
+    override func loadView() {
         if contact.isCurrentUser {
             view = ProfileView(viewType: .personalProfileReadOnly)
         } else {
@@ -64,7 +64,7 @@ public class ProfileViewController: UIViewController {
         }
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         setupActivityIndicator()
@@ -90,7 +90,7 @@ public class ProfileViewController: UIViewController {
         return dbConnection
     }()
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)
@@ -106,7 +106,7 @@ public class ProfileViewController: UIViewController {
         updateButton()
     }
 
-    open override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         preferLargeTitleIfPossible(true)

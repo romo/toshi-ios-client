@@ -16,7 +16,7 @@
 import UIKit
 import SweetUIKit
 
-open class RatingView: UIView {
+class RatingView: UIView {
 
     private var starSize: CGFloat = 12
     private var rating: Int = 0
@@ -78,7 +78,7 @@ open class RatingView: UIView {
         ratingConstraint.isActive = true
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         numberOfStars = 5
         super.init(coder: aDecoder)
 

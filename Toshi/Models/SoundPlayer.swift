@@ -16,7 +16,7 @@
 import UIKit
 import AudioToolbox
 
-public struct SoundPlayer {
+struct SoundPlayer {
 
     enum SoundType: String {
         case messageSent

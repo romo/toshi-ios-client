@@ -16,31 +16,31 @@
 import Foundation
 
 final class SofaPaymentRequest: SofaWrapper {
-    public override var type: SofaType {
+    override var type: SofaType {
         return .paymentRequest
     }
 
-    open lazy var body: String = {
+    lazy var body: String = {
         self.json["body"] as? String ?? ""
     }()
 
-    public var fiatValueString: String {
+    var fiatValueString: String {
         guard let string = self.json["fiatValueString"] as? String else { return "" }
 
         return string
     }
 
-    public var value: NSDecimalNumber {
+    var value: NSDecimalNumber {
         guard let hexValue = self.json["value"] as? String else { return NSDecimalNumber.zero }
 
         return NSDecimalNumber(hexadecimalString: hexValue)
     }
 
-    public var destinationAddress: String {
+    var destinationAddress: String {
         return json["destinationAddress"] as? String ?? ""
     }
 
-    public convenience init(valueInWei: NSDecimalNumber) {
+    convenience init(valueInWei: NSDecimalNumber) {
 
         let request: [String: Any] = [
             "value": valueInWei.toHexString,

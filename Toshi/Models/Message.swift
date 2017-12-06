@@ -16,20 +16,20 @@
 import Foundation
 import UIKit
 
-open class Message: NSObject {
+class Message: NSObject {
 
-    public var fiatValueString: String?
-    public var ethereumValueString: String?
+    var fiatValueString: String?
+    var ethereumValueString: String?
 
-    public var messageId: String = UUID().uuidString
-    public var messageType: String = "Text"
+    var messageId: String = UUID().uuidString
+    var messageType: String = "Text"
 
-    public let signalMessage: TSMessage
+    let signalMessage: TSMessage
 
-    public var attributedTitle: NSAttributedString?
-    public var attributedSubtitle: NSAttributedString?
+    var attributedTitle: NSAttributedString?
+    var attributedSubtitle: NSAttributedString?
 
-    public var attachment: TSAttachment? {
+    var attachment: TSAttachment? {
         if signalMessage.hasAttachments(), let attachmentId = (self.signalMessage.attachmentIds as? [String])?.first, let attachment = TSAttachment.fetch(uniqueId: attachmentId) {
 
             return attachment
@@ -57,7 +57,7 @@ open class Message: NSObject {
         return image
     }
 
-    public var image: UIImage? {
+    var image: UIImage? {
         if attachment is TSAttachmentPointer {
             return #imageLiteral(resourceName: "placeholder")
         } else if let stream = attachment as? TSAttachmentStream {
@@ -70,7 +70,7 @@ open class Message: NSObject {
         return nil
     }
 
-    public var title: String? {
+    var title: String? {
         set {
             if let string = newValue {
                 attributedTitle = NSAttributedString(string: string, attributes: [.font: Theme.semibold(size: 15), .foregroundColor: Theme.incomingMessageTextColor])
@@ -83,7 +83,7 @@ open class Message: NSObject {
         }
     }
 
-    public var subtitle: String? {
+    var subtitle: String? {
         set {
             if let string = newValue {
                 attributedSubtitle = NSAttributedString(string: string, attributes: [.font: Theme.preferredRegularSmall(), .foregroundColor: Theme.incomingMessageTextColor])
@@ -96,19 +96,19 @@ open class Message: NSObject {
         }
     }
 
-    public var senderId: String = ""
-    public var date: Date
+    var senderId: String = ""
+    var date: Date
 
-    public var isOutgoing: Bool = true
-    public var isActionable: Bool
+    var isOutgoing: Bool = true
+    var isActionable: Bool
 
-    public var deliveryStatus: TSOutgoingMessageState {
+    var deliveryStatus: TSOutgoingMessageState {
         return (self.signalMessage as? TSOutgoingMessage)?.messageState ?? .attemptingOut
     }
 
-    public var sofaWrapper: SofaWrapper?
+    var sofaWrapper: SofaWrapper?
 
-    public var isDisplayable: Bool {
+    var isDisplayable: Bool {
         // we are displayable even if there's no sofa content but we have attachments
         guard self.attachment == nil else { return true }
 
@@ -143,11 +143,11 @@ open class Message: NSObject {
         }
     }
 
-    public func uniqueIdentifier() -> String {
+    func uniqueIdentifier() -> String {
         return self.messageId
     }
 
-    public func type() -> String {
+    func type() -> String {
         return self.messageType
     }
 

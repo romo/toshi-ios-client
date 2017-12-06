@@ -18,9 +18,9 @@ import AwesomeCache
 import Teapot
 import UIKit
 
-public typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: ToshiError?) -> Void
+typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: ToshiError?) -> Void
 
-public class AppsAPIClient: NSObject, CacheExpiryDefault {
+class AppsAPIClient: NSObject, CacheExpiryDefault {
     static let shared: AppsAPIClient = AppsAPIClient()
 
     private let topRatedAppsCachedDataKey = "topRatedAppsCachedData"

@@ -17,14 +17,14 @@ import Foundation
 import SweetSwift
 import KeychainSwift
 
-public extension NSNotification.Name {
-    public static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
-    public static let userCreated = NSNotification.Name(rawValue: "userCreated")
-    public static let userLoggedIn = NSNotification.Name(rawValue: "userLoggedIn")
-    public static let localCurrencyUpdated = NSNotification.Name(rawValue: "localCurrencyUpdated")
+extension NSNotification.Name {
+    static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
+    static let userCreated = NSNotification.Name(rawValue: "userCreated")
+    static let userLoggedIn = NSNotification.Name(rawValue: "userLoggedIn")
+    static let localCurrencyUpdated = NSNotification.Name(rawValue: "localCurrencyUpdated")
 }
 
-public typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
+typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
 final class TokenUsersCacheData: NSObject, NSCoding {
 
@@ -47,7 +47,7 @@ final class TokenUsersCacheData: NSObject, NSCoding {
     }
 }
 
-public class TokenUser: NSObject, NSCoding {
+class TokenUser: NSObject, NSCoding {
 
     struct Constants {
         static let name = "name"
@@ -68,11 +68,11 @@ public class TokenUser: NSObject, NSCoding {
     @objc static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
     static let favoritesCollectionKey: String = "TokenContacts"
 
-    public static let legacyStoredUserKey = "StoredUser"
+    static let legacyStoredUserKey = "StoredUser"
 
-    public static let currentLocalUserAddressKey = "currentLocalUserAddress"
-    @objc public static let storedContactKey = "storedContactKey"
-    public static let localUserSettingsKey = "localUserSettings"
+    static let currentLocalUserAddressKey = "currentLocalUserAddress"
+    @objc static let storedContactKey = "storedContactKey"
+    static let localUserSettingsKey = "localUserSettings"
 
     var category = ""
 
@@ -146,7 +146,7 @@ public class TokenUser: NSObject, NSCoding {
         return address == Cereal.shared.address
     }
 
-    public var json: Data {
+    var json: Data {
         do {
             return try JSONSerialization.data(withJSONObject: dict, options: [])
         } catch {
@@ -174,7 +174,7 @@ public class TokenUser: NSObject, NSCoding {
         return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: name, username: displayUsername, isLocal: true)
     }
 
-    public override var description: String {
+    override var description: String {
         return "<User: address: \(address), payment address: \(paymentAddress), name: \(name), username: \(username), avatarPath: \(avatarPath)>"
     }
 
@@ -195,7 +195,7 @@ public class TokenUser: NSObject, NSCoding {
         return TokenUser(json: json, shouldSave: shouldUpdate)
     }
 
-    @objc public init(json: [String: Any], shouldSave: Bool = true) {
+    @objc init(json: [String: Any], shouldSave: Bool = true) {
         super.init()
 
         update(json: json, updateAvatar: true, shouldSave: shouldSave)
@@ -203,14 +203,15 @@ public class TokenUser: NSObject, NSCoding {
         setupNotifications()
     }
 
-    public required convenience init?(coder aDecoder: NSCoder) {
+    required convenience init?(coder aDecoder: NSCoder) {
         guard let jsonData = aDecoder.decodeObject(forKey: "jsonData") as? Data else { return nil }
         guard let deserialised = try? JSONSerialization.jsonObject(with: jsonData, options: []), let json = deserialised as? [String: Any] else { return nil }
 
         self.init(json: json)
     }
 
-    @objc(encodeWithCoder:) public func encode(with aCoder: NSCoder) {
+    @objc(encodeWithCoder:)
+    func encode(with aCoder: NSCoder) {
         aCoder.encode(json, forKey: "jsonData")
     }
 
@@ -260,7 +261,7 @@ public class TokenUser: NSObject, NSCoding {
         save()
     }
 
-    public func updateLocalCurrency(code: String? = nil, shouldSave: Bool = true) {
+    func updateLocalCurrency(code: String? = nil, shouldSave: Bool = true) {
         if let localCurrency = code {
             userSettings[Constants.localCurrency] = localCurrency
 
@@ -272,7 +273,7 @@ public class TokenUser: NSObject, NSCoding {
         }
     }
 
-    public static func createCurrentUser(with json: [String: Any]) {
+    static func createCurrentUser(with json: [String: Any]) {
         let newUser = TokenUser(json: json, shouldSave: false)
 
         current = newUser
@@ -291,7 +292,7 @@ public class TokenUser: NSObject, NSCoding {
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
-    @objc public static func retrieveCurrentUser() {
+    @objc static func retrieveCurrentUser() {
         current = retrieveCurrentUserFromStore()
 
         NotificationCenter.default.post(name: .userCreated, object: nil)

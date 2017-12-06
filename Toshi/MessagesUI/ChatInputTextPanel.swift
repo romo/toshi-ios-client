@@ -80,7 +80,7 @@ class ChatInputTextPanel: UIView {
         return view
     }()
 
-    public var text: String? {
+    var text: String? {
         get {
             return inputField.text
         } set {

@@ -49,18 +49,18 @@ class PassphraseCopyController: UIViewController {
 
     private var passPhraseViewHeightConstraint: NSLayoutConstraint?
 
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         title = Localized("passphrase_copy_navigation_title")
         hidesBottomBarWhenPushed = true
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    open override func loadView() {
+    override func loadView() {
         view = UIScrollView()
     }
 

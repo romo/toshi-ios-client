@@ -17,9 +17,9 @@ import UIKit
 import Teapot
 import SweetFoundation
 
-public struct RatingScore {
-    public struct StarsCount {
-        public static var zero: StarsCount {
+struct RatingScore {
+    struct StarsCount {
+        static var zero: StarsCount {
             return StarsCount(one: 0, two: 0, three: 0, four: 0, five: 0)
         }
 
@@ -77,11 +77,11 @@ public struct RatingScore {
 }
 
 class RatingsClient: NSObject {
-    public static let shared: RatingsClient = RatingsClient()
+    static let shared: RatingsClient = RatingsClient()
 
-    public var teapot: Teapot
+    var teapot: Teapot
 
-    public var baseURL: URL
+    var baseURL: URL
 
     convenience init(teapot: Teapot) {
         self.init()
@@ -114,7 +114,7 @@ class RatingsClient: NSObject {
         }
     }
 
-    public func submit(userId: String, rating: Int, review: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
+    func submit(userId: String, rating: Int, review: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         fetchTimestamp { timestamp, error in
 
             guard let timestamp = timestamp else {
@@ -159,7 +159,7 @@ class RatingsClient: NSObject {
         }
     }
 
-    public func scores(for userId: String, completion: @escaping ((_ ratingScore: RatingScore) -> Void)) {
+    func scores(for userId: String, completion: @escaping ((_ ratingScore: RatingScore) -> Void)) {
 
         self.teapot.get("/v1/user/\(userId)") { result in
             switch result {

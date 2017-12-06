@@ -18,16 +18,16 @@ import SweetUIKit
 
 extension CGFloat {
     
-    public static var lineHeight: CGFloat {
+    static var lineHeight: CGFloat {
         return 1 / UIScreen.main.scale
     }
 }
 
-public final class Theme: NSObject {}
+final class Theme: NSObject {}
 
 extension Theme {
     
-    @objc public static func setupBasicAppearance() {
+    @objc static func setupBasicAppearance() {
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.titleTextAttributes = [.font: Theme.semibold(size: 17), .foregroundColor: Theme.navigationTitleTextColor]
         navBarAppearance.tintColor = Theme.tintColor
@@ -43,31 +43,31 @@ extension Theme {
 
 extension Theme {
     
-    public static var lightTextColor: UIColor {
+    static var lightTextColor: UIColor {
         return .white
     }
 
-    public static var mediumTextColor: UIColor {
+    static var mediumTextColor: UIColor {
         return UIColor(hex: "99999D")
     }
 
-    public static var darkTextColor: UIColor {
+    static var darkTextColor: UIColor {
         return .black
     }
 
-    public static var greyTextColor: UIColor {
+    static var greyTextColor: UIColor {
         return UIColor(hex: "A4A4AB")
     }
 
-    public static var lightGreyTextColor: UIColor {
+    static var lightGreyTextColor: UIColor {
         return UIColor(hex: "7D7C7C")
     }
 
-    public static var lighterGreyTextColor: UIColor {
+    static var lighterGreyTextColor: UIColor {
         return UIColor(hex: "F3F3F3")
     }
 
-    @objc public static var tintColor: UIColor {
+    @objc static var tintColor: UIColor {
         #if TOSHIDEV
             return UIColor(hex: "007AFF")
         #else
@@ -75,83 +75,83 @@ extension Theme {
         #endif
     }
 
-    public static var sectionTitleColor: UIColor {
+    static var sectionTitleColor: UIColor {
         return UIColor(hex: "78787D")
     }
 
-    @objc public static var viewBackgroundColor: UIColor {
+    @objc static var viewBackgroundColor: UIColor {
         return .white
     }
 
-    public static var unselectedItemTintColor: UIColor {
+    static var unselectedItemTintColor: UIColor {
         return UIColor(hex: "979ca4")
     }
     
-    public static var lightGrayBackgroundColor: UIColor {
+    static var lightGrayBackgroundColor: UIColor {
         return UIColor(hex: "EFEFF4")
     }
 
-    public static var inputFieldBackgroundColor: UIColor {
+    static var inputFieldBackgroundColor: UIColor {
         return UIColor(hex: "F1F1F1")
     }
     
-    public static var chatInputFieldBackgroundColor: UIColor {
+    static var chatInputFieldBackgroundColor: UIColor {
         return UIColor(hex: "FAFAFA")
     }
 
-    @objc public static var navigationTitleTextColor: UIColor {
+    @objc static var navigationTitleTextColor: UIColor {
         return .black
     }
 
-    @objc public static var navigationBarColor: UIColor {
+    @objc static var navigationBarColor: UIColor {
         return UIColor(hex: "F7F7F8")
     }
 
-    public static var borderColor: UIColor {
+    static var borderColor: UIColor {
         return UIColor(hex: "D7DBDC")
     }
 
-    public static var actionButtonTitleColor: UIColor {
+    static var actionButtonTitleColor: UIColor {
         return UIColor(hex: "0BBEE3")
     }
 
-    public static var ratingBackground: UIColor {
+    static var ratingBackground: UIColor {
         return UIColor(hex: "D1D1D1")
     }
 
-    public static var ratingTint: UIColor {
+    static var ratingTint: UIColor {
         return UIColor(hex: "EB6E00")
     }
 
-    public static var passphraseVerificationContainerColor: UIColor {
+    static var passphraseVerificationContainerColor: UIColor {
         return UIColor(hex: "EAEBEC")
     }
 
-    public static var cellSelectionColor: UIColor {
+    static var cellSelectionColor: UIColor {
         return UIColor(white: 0.95, alpha: 1)
     }
 
-    public static var separatorColor: UIColor {
+    static var separatorColor: UIColor {
         return UIColor(white: 0.95, alpha: 1)
     }
     
-    public static var incomingMessageBackgroundColor: UIColor {
+    static var incomingMessageBackgroundColor: UIColor {
         return UIColor(hex: "ECECEE")
     }
 
-    public static var outgoingMessageTextColor: UIColor {
+    static var outgoingMessageTextColor: UIColor {
         return .white
     }
 
-    public static var incomingMessageTextColor: UIColor {
+    static var incomingMessageTextColor: UIColor {
         return .black
     }
 
-    public static var errorColor: UIColor {
+    static var errorColor: UIColor {
         return UIColor(hex: "FF0000")
     }
 
-    public static var offlineAlertBackgroundColor: UIColor {
+    static var offlineAlertBackgroundColor: UIColor {
         return UIColor(hex: "5B5B5B")
     }
 }

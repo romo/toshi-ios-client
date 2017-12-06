@@ -23,7 +23,7 @@ extension UIViewController {
         }
     }
 
-    open func navigationBarBottomAnchor() -> NSLayoutYAxisAnchor {
+    func navigationBarBottomAnchor() -> NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return view.safeAreaLayoutGuide.topAnchor
         } else {
@@ -31,7 +31,7 @@ extension UIViewController {
         }
     }
 
-    open func layoutGuide() -> UILayoutGuide {
+    func layoutGuide() -> UILayoutGuide {
         if #available(iOS 11.0, *) {
             return view.safeAreaLayoutGuide
         } else {

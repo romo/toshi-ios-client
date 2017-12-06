@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PaymentRequestMetadata {
+struct PaymentRequestMetadata {
 
     private(set) var weiValue: String
     private(set) var memo: String?

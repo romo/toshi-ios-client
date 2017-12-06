@@ -34,8 +34,8 @@ struct MessageModel {
     var signalMessage: TSMessage?
     var sofaWrapper: SofaWrapper?
 
-    public var fiatValueString: String?
-    public var ethereumValueString: String?
+    var fiatValueString: String?
+    var ethereumValueString: String?
 
     init(message: Message) {
         self.message = message

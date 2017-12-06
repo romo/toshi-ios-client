@@ -17,11 +17,11 @@ import UIKit
 import SweetFoundation
 import SweetUIKit
 
-public extension NSNotification.Name {
-    public static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
+extension NSNotification.Name {
+    static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
 }
 
-open class RecentViewController: SweetTableController, Emptiable {
+class RecentViewController: SweetTableController, Emptiable {
 
     let emptyView = EmptyView(title: Localized("chats_empty_title"), description: Localized("chats_empty_description"), buttonTitle: Localized("invite_friends_action_title"))
 
@@ -48,7 +48,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         return IDAPIClient.shared
     }
 
-    public init() {
+    init() {
         super.init()
 
         title = "Recent"
@@ -74,11 +74,11 @@ open class RecentViewController: SweetTableController, Emptiable {
         registerNotifications()
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         addSubviewsAndConstraints()
@@ -100,7 +100,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         loadMessages()
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(true)
@@ -262,18 +262,18 @@ open class RecentViewController: SweetTableController, Emptiable {
 
 extension RecentViewController: UITableViewDelegate {
 
-    open func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
+    func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath) {
             let chatViewController = ChatViewController(thread: thread)
             navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 
-    public func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
             if let thread = self.thread(at: indexPath) {
 
@@ -289,11 +289,11 @@ extension RecentViewController: UITableViewDelegate {
 
 extension RecentViewController: UITableViewDataSource {
 
-    open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(mappings.numberOfItems(inSection: UInt(section)))
     }
 
-    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
         let thread = self.thread(at: indexPath)
 

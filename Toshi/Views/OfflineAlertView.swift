@@ -21,7 +21,7 @@ class OfflineAlertView: UIView {
     static let height: CGFloat = 32.0
     private let margin: CGFloat = 6.0
 
-    public let displayTransform = CGAffineTransform(translationX: 0, y: -OfflineAlertView.height)
+    let displayTransform = CGAffineTransform(translationX: 0, y: -OfflineAlertView.height)
     var heightConstraint: NSLayoutConstraint?
 
     private lazy var textLabel: UILabel = {

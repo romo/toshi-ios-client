@@ -15,7 +15,7 @@
 
 import UIKit
 
-public class SignalNotificationManager: NSObject, NotificationsProtocol {
+class SignalNotificationManager: NSObject, NotificationsProtocol {
 
     static var tabbarController: TabBarController? {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
@@ -23,7 +23,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         return window.rootViewController as? TabBarController
     }
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
+    func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
 
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
             return
@@ -50,11 +50,11 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         center.add(request, withCompletionHandler: nil)
     }
 
-    public func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
+    func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
         DLog("Error: \(error), in thread: \(thread).")
     }
 
-    @objc public static func updateUnreadMessagesNumber() {
+    @objc static func updateUnreadMessagesNumber() {
         let unreadMessagesCount = Int(OWSMessageManager.shared().unreadMessagesCount())
 
         if unreadMessagesCount > 0 {

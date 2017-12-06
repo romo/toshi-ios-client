@@ -1,6 +1,6 @@
 import Foundation
 
-public enum QRCodeIntent {
+enum QRCodeIntent {
     case webSignIn(loginToken: String)
     case paymentRequest(weiValue: String, address: String?, username: String?, memo: String?)
     case addContact(username: String)

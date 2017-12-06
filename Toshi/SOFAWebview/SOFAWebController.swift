@@ -130,7 +130,7 @@ final class SOFAWebController: UIViewController {
         webView.fillSuperview()
     }
 
-    public func load(url: URL) {
+    func load(url: URL) {
         let request = URLRequest(url: url)
         webView.load(request)
     }

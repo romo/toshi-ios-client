@@ -15,13 +15,13 @@
 
 import UIKit
 
-public class BrowseNavigationController: UINavigationController {
+class BrowseNavigationController: UINavigationController {
 
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
     
-    public override init(rootViewController: UIViewController) {
+    override init(rootViewController: UIViewController) {
         
         if let profileData = UserDefaultsWrapper.selectedApp {
             super.init(nibName: nil, bundle: nil)
@@ -34,12 +34,12 @@ public class BrowseNavigationController: UINavigationController {
         }
     }
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         configureTabBarItem()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -48,7 +48,7 @@ public class BrowseNavigationController: UINavigationController {
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
-    public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ProfileViewController {
@@ -56,17 +56,17 @@ public class BrowseNavigationController: UINavigationController {
         }
     }
 
-    public override func popViewController(animated: Bool) -> UIViewController? {
+    override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaultsWrapper.selectedApp = nil
         return super.popViewController(animated: animated)
     }
 
-    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+    override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedApp = nil
         return super.popToRootViewController(animated: animated)
     }
 
-    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+    override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedApp = nil
         return super.popToViewController(viewController, animated: animated)
     }

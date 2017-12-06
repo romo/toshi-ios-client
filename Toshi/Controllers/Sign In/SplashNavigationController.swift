@@ -15,13 +15,13 @@
 
 import UIKit
 
-public class SplashNavigationController: UINavigationController {
+class SplashNavigationController: UINavigationController {
 
     convenience init() {
         self.init(rootViewController: SplashViewController())
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationBar.barStyle = .default
@@ -36,7 +36,7 @@ public class SplashNavigationController: UINavigationController {
         navigationBar.titleTextAttributes = titleTextAttributes
     }
     
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return viewControllers.count == 1 ? .lightContent : .default
     }
 }

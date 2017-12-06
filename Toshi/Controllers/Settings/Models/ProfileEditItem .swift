@@ -34,7 +34,7 @@ enum ProfileEditItemType: Int {
     }
 }
 
-public struct ProfileEditSection {
+struct ProfileEditSection {
     var items = [ProfileEditItem]()
     var headerTitle: String?
     var footerTitle: String?
@@ -46,7 +46,7 @@ public struct ProfileEditSection {
     }
 }
 
-public class ProfileEditItem {
+class ProfileEditItem {
 
     private(set) var type: ProfileEditItemType = .none
 

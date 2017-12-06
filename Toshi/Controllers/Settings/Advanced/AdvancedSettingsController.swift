@@ -29,13 +29,13 @@ class AdvancedSettingsController: UITableViewController {
 
 extension AdvancedSettingsController {
 
-    public override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
+    override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
         guard let footerView = view as? UITableViewHeaderFooterView else { return }
 
         footerView.textLabel?.text = "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n"
     }
 
-    public override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
+    override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
         navigationController?.pushViewController(NetworkSettingsController(), animated: true)
     }
 }

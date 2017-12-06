@@ -15,25 +15,25 @@
 
 import Foundation
 
-public extension NSDecimalNumber {
+extension NSDecimalNumber {
 
-    public static var weiRoundingBehavior: NSDecimalNumberHandler {
+    static var weiRoundingBehavior: NSDecimalNumberHandler {
         return NSDecimalNumberHandler(roundingMode: .up, scale: EthereumConverter.weisToEtherPowerOf10Constant, raiseOnExactness: false, raiseOnOverflow: true, raiseOnUnderflow: true, raiseOnDivideByZero: true)
     }
 
-    public var toDecimalString: String {
+    var toDecimalString: String {
         return String(describing: self)
     }
 
-    public var toHexString: String {
+    var toHexString: String {
         return "0x\(BaseConverter.decToHex(toDecimalString).lowercased())"
     }
 
-    public var isANumber: Bool {
+    var isANumber: Bool {
         return self != .notANumber
     }
 
-    public convenience init(hexadecimalString hexString: String) {
+    convenience init(hexadecimalString hexString: String) {
         var hexString = hexString.replacingOccurrences(of: "0x", with: "")
 
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.

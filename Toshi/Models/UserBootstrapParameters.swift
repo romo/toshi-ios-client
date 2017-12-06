@@ -17,10 +17,10 @@ import Foundation
 import SweetFoundation
 
 /// Prepares user keys and data, signs and formats it properly as JSON to bootstrap a chat user.
-public class UserBootstrapParameter {
+class UserBootstrapParameter {
 
     // This change might require re-creating Signal users
-    public lazy var password: String = {
+    lazy var password: String = {
         let deviceSpecificPasswordKey = "DeviceSpecificPassword"
         let uuid: String
 
@@ -34,17 +34,17 @@ public class UserBootstrapParameter {
         return uuid
     }()
 
-    public let identityKey: String
+    let identityKey: String
 
-    public let lastResortPreKey: PreKeyRecord
+    let lastResortPreKey: PreKeyRecord
 
-    public let prekeys: [PreKeyRecord]
+    let prekeys: [PreKeyRecord]
 
-    public let registrationId: UInt32
+    let registrationId: UInt32
 
-    public let signalingKey: String
+    let signalingKey: String
 
-    public let signedPrekey: SignedPreKeyRecord
+    let signedPrekey: SignedPreKeyRecord
 
     lazy var payload: [String: Any] = {
         var prekeys = [[String: Any]]()

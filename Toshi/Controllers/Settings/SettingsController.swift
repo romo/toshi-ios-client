@@ -16,7 +16,7 @@
 import UIKit
 import SweetUIKit
 
-open class SettingsController: UIViewController {
+class SettingsController: UIViewController {
     static var headerHeight: CGFloat = 38.0
     static var footerHeight: CGFloat = 20.0
 
@@ -128,11 +128,11 @@ open class SettingsController: UIViewController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    open override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         title = Localized("settings_navigation_title")
@@ -153,7 +153,7 @@ open class SettingsController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUpdateLocalCurrency), name: .localCurrencyUpdated, object: nil)
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         IDAPIClient.shared.updateContact(with: Cereal.shared.address)
@@ -257,7 +257,7 @@ open class SettingsController: UIViewController {
 
 extension SettingsController: UITableViewDataSource {
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         var cell: UITableViewCell
 
@@ -317,23 +317,23 @@ extension SettingsController: UITableViewDataSource {
         return cell
     }
 
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
 
-    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionInfo = sections[section]
         return sectionInfo.items.count
     }
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 }
 
 extension SettingsController: UITableViewDelegate {
 
-    public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let sectionInfo = sections[indexPath.section]
@@ -364,7 +364,7 @@ extension SettingsController: UITableViewDelegate {
         }
     }
 
-    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionItem = sections[section]
 
         switch sectionItem {
@@ -378,7 +378,7 @@ extension SettingsController: UITableViewDelegate {
         }
     }
 
-    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sectionItem = sections[section]
 
         switch sectionItem {
@@ -389,13 +389,13 @@ extension SettingsController: UITableViewDelegate {
         }
     }
 
-    public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else { return }
 
         headerView.textLabel?.font = Theme.preferredFootnote()
     }
 
-    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 
         let sectionItem = sections[section]
 
@@ -407,12 +407,12 @@ extension SettingsController: UITableViewDelegate {
         }
     }
 
-    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = sections[section]
         return sectionInfo.headerTitle
     }
 
-    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let sectionInfo = sections[section]
         return sectionInfo.footerTitle
     }

@@ -55,14 +55,14 @@ class PassphraseEnableController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         title = Localized("passphrase_enable_navigation_title")
         hidesBottomBarWhenPushed = true
     }
 
-    open override func loadView() {
+    override func loadView() {
         let scrollView = UIScrollView()
 
         view = scrollView

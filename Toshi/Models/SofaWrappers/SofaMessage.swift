@@ -17,26 +17,26 @@ import Foundation
 
 final class SofaMessage: SofaWrapper {
 
-    open class Button: Equatable {
+    class Button: Equatable {
 
-        public enum ControlType: String {
+        enum ControlType: String {
             case button
             case group
         }
 
-        open var type: ControlType = .button
+        var type: ControlType = .button
 
-        open var label: String?
+        var label: String?
 
         // values are to be sent back as SofaCommands
-        open var value: Any?
+        var value: Any?
 
         // Actions are to be handled locally.
-        open var action: Any?
+        var action: Any?
 
-        open var subcontrols: [Button] = []
+        var subcontrols: [Button] = []
 
-        public init(json: [String: Any]) {
+        init(json: [String: Any]) {
             if let jsonType = json["type"] as? String {
                 type = ControlType(rawValue: jsonType) ?? .button
             }
@@ -59,7 +59,7 @@ final class SofaMessage: SofaWrapper {
             }
         }
 
-        public static func == (lhs: SofaMessage.Button, rhs: SofaMessage.Button) -> Bool {
+        static func == (lhs: SofaMessage.Button, rhs: SofaMessage.Button) -> Bool {
             let lhv = lhs.value as AnyObject
             let rhv = rhs.value as AnyObject
             let lha = lhs.action as AnyObject
@@ -69,7 +69,7 @@ final class SofaMessage: SofaWrapper {
         }
     }
 
-    public override var type: SofaType {
+    override var type: SofaType {
         return .message
     }
 
@@ -77,11 +77,11 @@ final class SofaMessage: SofaWrapper {
         return json["showKeyboard"] as? Bool
     }
 
-    open lazy var body: String = {
+    lazy var body: String = {
         self.json["body"] as? String ?? ""
     }()
 
-    open lazy var buttons: [SofaMessage.Button] = {
+    lazy var buttons: [SofaMessage.Button] = {
         // [{"type": "button", "label": "Red Cross", "value": "red-cross"},…]
         var buttons = [Button]()
         if let controls = self.json["controls"] as? [[String: Any]] {
@@ -94,7 +94,7 @@ final class SofaMessage: SofaWrapper {
         return buttons
     }()
 
-    public convenience init(body: String) {
+    convenience init(body: String) {
         self.init(content: ["body": body])
     }
 }

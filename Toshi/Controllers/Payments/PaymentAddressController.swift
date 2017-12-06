@@ -39,7 +39,7 @@ class PaymentAddressController: UIViewController {
         return view
     }()
 
-    internal lazy var scannerController: ScannerViewController = {
+    lazy var scannerController: ScannerViewController = {
         let controller = ScannerController(instructions: Localized("payment_qr_scanner_instructions"), types: [.qrCode])
         controller.delegate = self
 
@@ -121,11 +121,11 @@ extension PaymentAddressController: PaymentAddressInputDelegate {
 
 extension PaymentAddressController: ScannerViewControllerDelegate {
     
-    public func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
+    func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+    func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
         if let intent = QRCodeIntent(result: result) {
             switch intent {
             case .addContact(let username):

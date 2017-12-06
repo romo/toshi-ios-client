@@ -381,11 +381,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
 extension ChatViewController: UIImagePickerControllerDelegate {
 
-    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
 
         picker.dismiss(animated: true, completion: nil)
 
@@ -435,7 +435,7 @@ extension ChatViewController: UITableViewDelegate {
 
 extension ChatViewController: UITableViewDataSource {
 
-    public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return viewModel.messageModels.count
     }
 
@@ -445,7 +445,7 @@ extension ChatViewController: UITableViewDataSource {
         }
     }
 
-    public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let message = viewModel.messageModels[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)

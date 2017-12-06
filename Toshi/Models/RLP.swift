@@ -17,7 +17,7 @@ import Foundation
 
 /// Implementation of RLP (Recursive Length Prefix) encoding and decoding
 /// <https://github.com/ethereum/wiki/wiki/RLP>
-public class RLP {
+class RLP {
 
     enum RLPDataType {
         case string
@@ -41,7 +41,7 @@ public class RLP {
         case lengthGreaterThanMax
     }
 
-    public static func decode(from hex: String) throws -> Any {
+    static func decode(from hex: String) throws -> Any {
         guard let data = hex.hexadecimalData else {
             throw RLPDecodeError.invalidHexString
         }
@@ -53,7 +53,7 @@ public class RLP {
         }
     }
 
-    public static func decode(from data: Data) throws -> Any {
+    static func decode(from data: Data) throws -> Any {
         do {
             let (item, end) = try consumeItem(data, 0)
             if end != data.count {
@@ -166,7 +166,7 @@ public class RLP {
         }
     }
 
-    public static func encode(_ obj: Any) throws -> Data {
+    static func encode(_ obj: Any) throws -> Data {
         let bytes: Data
         let prefixOffset: UInt8
 

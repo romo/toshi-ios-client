@@ -15,17 +15,17 @@
 
 import UIKit
 
-public class RecentNavigationController: UINavigationController {
+class RecentNavigationController: UINavigationController {
 
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
 
-    public override init(rootViewController: UIViewController) {
+    override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
     }
 
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         tabBarItem = UITabBarItem(title: Localized("tab_bar_title_recent"), image: #imageLiteral(resourceName: "tab2"), tag: 0)
@@ -40,11 +40,11 @@ public class RecentNavigationController: UINavigationController {
         return view
     }()
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("")
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         guard #available(iOS 11.0, *) else {
@@ -57,7 +57,7 @@ public class RecentNavigationController: UINavigationController {
         }
     }
     
-    public override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         guard #available(iOS 11.0, *) else {
@@ -66,7 +66,7 @@ public class RecentNavigationController: UINavigationController {
         }
     }
 
-    public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
+    func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = popToRootViewController(animated: false)
         guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
 
@@ -80,7 +80,7 @@ public class RecentNavigationController: UINavigationController {
         }
     }
 
-    public func openThread(withThreadIdentifier identifier: String, animated: Bool) {
+    func openThread(withThreadIdentifier identifier: String, animated: Bool) {
         _ = self.popToRootViewController(animated: animated)
         guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
         guard let thread = recentViewController.thread(withIdentifier: identifier) else { return }
@@ -89,12 +89,12 @@ public class RecentNavigationController: UINavigationController {
         self.pushViewController(chatViewController, animated: animated)
     }
 
-    public func openThread(_ thread: TSThread, animated: Bool) {
+    func openThread(_ thread: TSThread, animated: Bool) {
         let chatViewController = ChatViewController(thread: thread)
         self.pushViewController(chatViewController, animated: animated)
     }
 
-    public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ChatViewController {
@@ -102,19 +102,19 @@ public class RecentNavigationController: UINavigationController {
         }
     }
 
-    public override func popViewController(animated: Bool) -> UIViewController? {
+    override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popViewController(animated: animated)
     }
 
-    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+    override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popToRootViewController(animated: animated)
     }
 
-    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+    override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popToViewController(viewController, animated: animated)

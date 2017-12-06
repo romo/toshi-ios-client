@@ -22,7 +22,7 @@ struct EthereumConverter {
     private static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
     /// Each eth is made up of 1 x 10^18 wei.
-    public static var weisToEtherPowerOf10Constant: Int16 {
+    static var weisToEtherPowerOf10Constant: Int16 {
         return Int16(18)
     }
 
@@ -30,7 +30,7 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the value in USD to be converted to eth.
     /// - Returns: the eth value.
-    public static func localFiatToEther(forFiat balance: NSNumber, exchangeRate: Decimal) -> NSDecimalNumber {
+    static func localFiatToEther(forFiat balance: NSNumber, exchangeRate: Decimal) -> NSDecimalNumber {
         let etherValue = balance.decimalValue / exchangeRate
 
         return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
@@ -41,7 +41,7 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the value in eth
     /// - Returns: the string representation
-    public static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
+    static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 4
@@ -70,7 +70,7 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the wei value to be converted
     /// - Returns: the eth value in a string: "0.5 EHT"
-    public static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
+    static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
         return ethereumValueString(forEther: balance.dividing(by: weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
     }
 
@@ -78,7 +78,7 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: value in wei
     /// - Returns: fiat string representation: "$10.50"
-    public static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
+    static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let ether = balance.dividing(by: weisToEtherConstant)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
@@ -96,7 +96,7 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the value in wei
     /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
-    public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
+    static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
         let localCurrency = TokenUser.current?.localCurrency ?? Currency.forcedLocale.currencyCode
 
@@ -123,7 +123,7 @@ struct EthereumConverter {
     ///   - width: the width of the label, to adjust alignment.
     ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
+    static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
         let attributedString = balanceAttributedString(forWei: balance, exchangeRate: exchangeRate, attributes: attributes)
         guard let mutableAttributedString = attributedString.mutableCopy() as? NSMutableAttributedString else { return attributedString }
 
@@ -146,7 +146,7 @@ struct EthereumConverter {
     ///   - balance: the value in wei
     ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
+    static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
 
         let fiatText = fiatValueStringWithCode(forWei: balance, exchangeRate: exchangeRate)
         let etherText = ethereumValueString(forWei: balance)

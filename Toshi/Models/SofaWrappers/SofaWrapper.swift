@@ -15,7 +15,7 @@
 
 import Foundation
 
-@objc public class SofaTypes: NSObject {
+@objc class SofaTypes: NSObject {
     @objc static let none = SofaType.none.rawValue
     @objc static let message = SofaType.message.rawValue
     @objc static let command = SofaType.command.rawValue
@@ -25,7 +25,7 @@ import Foundation
     @objc static let payment = SofaType.payment.rawValue
 }
 
-public enum SofaType: String {
+enum SofaType: String {
     case none = ""
     case message = "SOFA::Message:"
     case command = "SOFA::Command:"
@@ -59,22 +59,22 @@ public enum SofaType: String {
     }
 }
 
-public protocol SofaWrapperProtocol {
+protocol SofaWrapperProtocol {
     var type: SofaType { get }
 }
 
-open class SofaWrapper: SofaWrapperProtocol {
-    public var type: SofaType {
+class SofaWrapper: SofaWrapperProtocol {
+    var type: SofaType {
         return .none
     }
 
-    open var content: String = ""
+    var content: String = ""
 
-    open var json: [String: Any] {
+    var json: [String: Any] {
         return SofaWrapper.sofaContentToJSON(content, for: type) ?? [String: Any]()
     }
 
-    public static func wrapper(content: String) -> SofaWrapper {
+    static func wrapper(content: String) -> SofaWrapper {
         switch SofaType(sofa: content) {
         case .message:
             return SofaMessage(content: content)
@@ -93,18 +93,18 @@ open class SofaWrapper: SofaWrapperProtocol {
         }
     }
 
-    public init(content: String) {
+    init(content: String) {
         self.content = content
     }
 
-    public init(content json: [String: Any]) {
+    init(content json: [String: Any]) {
         guard let data = try? JSONSerialization.data(withJSONObject: json, options: []) else { fatalError() }
         guard let jsonString = String(data: data, encoding: .utf8) else { fatalError() }
 
         content = SofaWrapper.addSofaIdentifier(to: jsonString, for: type)
     }
 
-    public func removeFiatValueString() {
+    func removeFiatValueString() {
         var contentJSON = json
         contentJSON.removeValue(forKey: "fiatValueString")
 
@@ -113,7 +113,7 @@ open class SofaWrapper: SofaWrapperProtocol {
         }
     }
 
-    static public func addFiatStringIfNecessary(to content: String, for sofaType: SofaType) -> String? {
+    static func addFiatStringIfNecessary(to content: String, for sofaType: SofaType) -> String? {
         if SofaWrapper.contentContainsFiatValueString(content, for: sofaType) {
             return content
         } else {
@@ -121,7 +121,7 @@ open class SofaWrapper: SofaWrapperProtocol {
         }
     }
 
-    static public func addFiatStringIfNecessary(to content: [String: Any], for sofaType: SofaType) -> [String: Any]? {
+    static func addFiatStringIfNecessary(to content: [String: Any], for sofaType: SofaType) -> [String: Any]? {
         guard content["fiatValueString"] as? String == nil else {
             // Fiat value is already in there
             return content

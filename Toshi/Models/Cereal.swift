@@ -18,9 +18,9 @@ import EtherealCereal
 import HDWallet
 
 /// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
-public class Cereal: NSObject {
+class Cereal: NSObject {
 
-    @objc public static var shared: Cereal = Cereal()
+    @objc static var shared: Cereal = Cereal()
 
     let entropyByteCount = 16
 
@@ -32,15 +32,15 @@ public class Cereal: NSObject {
 
     static let privateKeyStorageKey = "cerealPrivateKey"
 
-    @objc public var address: String {
+    @objc var address: String {
         return idCereal.address
     }
 
-    public var paymentAddress: String {
+    var paymentAddress: String {
         return walletCereal.address
     }
 
-    @objc public static func areWordsValid(_ words: [String]) -> Bool {
+    @objc static func areWordsValid(_ words: [String]) -> Bool {
         return BTCMnemonic(words: words, password: nil, wordListType: .english) != nil
     }
     
@@ -64,7 +64,7 @@ public class Cereal: NSObject {
     }
 
     // restore from words
-    public init?(words: [String]) {
+    init?(words: [String]) {
         guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
         self.mnemonic = mnemonic
 
@@ -85,7 +85,7 @@ public class Cereal: NSObject {
     }
 
     // restore from local user or create new
-    public override init() {
+    override init() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
             guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: BTCMnemonicWordListType.english) else {
                 CrashlyticsLogger.log("Incorrect entropy for given passphrase")
@@ -121,33 +121,33 @@ public class Cereal: NSObject {
 
     // MARK: - Sign with id
 
-    public func signWithID(message: String) -> String {
+    func signWithID(message: String) -> String {
         return idCereal.sign(message: message)
     }
 
-    public func signWithID(hex: String) -> String {
+    func signWithID(hex: String) -> String {
         return idCereal.sign(hex: hex)
     }
 
-    public func sha3WithID(string: String) -> String {
+    func sha3WithID(string: String) -> String {
         return idCereal.sha3(string: string)
     }
 
-    public func sha3WithID(data: Data) -> String {
+    func sha3WithID(data: Data) -> String {
         return idCereal.sha3(data: data)
     }
 
     // MARK: - Sign with wallet
 
-    public func signWithWallet(message: String) -> String {
+    func signWithWallet(message: String) -> String {
         return walletCereal.sign(message: message)
     }
 
-    public func signWithWallet(hex: String) -> String {
+    func signWithWallet(hex: String) -> String {
         return walletCereal.sign(hex: hex)
     }
 
-    public func signEthereumTransactionWithWallet(hex: String) -> String? {
+    func signEthereumTransactionWithWallet(hex: String) -> String? {
         do {
             guard var rlp = try RLP.decode(from: hex) as? [Data] else {
                 return nil
@@ -201,7 +201,7 @@ public class Cereal: NSObject {
         }
     }
 
-    public func sha3WithWallet(string: String) -> String {
+    func sha3WithWallet(string: String) -> String {
         return walletCereal.sha3(string: string)
     }
 

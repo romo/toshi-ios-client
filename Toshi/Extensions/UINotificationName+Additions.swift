@@ -13,6 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-public extension NSNotification.Name {
-    public static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
+extension NSNotification.Name {
+    static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
 }

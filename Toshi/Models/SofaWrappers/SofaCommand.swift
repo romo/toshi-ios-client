@@ -20,7 +20,7 @@ import Foundation
 //      "value": "timetable"
 //  }
 final class SofaCommand: SofaWrapper {
-    open lazy var body: String = {
+    lazy var body: String = {
         self.json["body"] as? String ?? ""
     }()
 

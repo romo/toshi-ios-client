@@ -113,7 +113,7 @@ final class ReputationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public func setScore(_ ratingScore: RatingScore) {
+    func setScore(_ ratingScore: RatingScore) {
         reviewCount = ratingScore.reviewCount
         ratingLabel.text = "\(ratingScore.averageRating)"
         ratingView.set(rating: Float(ratingScore.averageRating))

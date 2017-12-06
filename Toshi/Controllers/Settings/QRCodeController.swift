@@ -40,7 +40,7 @@ class QRCodeController: UIViewController {
         qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
     }
 
-    open override func loadView() {
+    override func loadView() {
         let scrollView = UIScrollView()
 
         view = scrollView

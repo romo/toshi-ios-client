@@ -18,20 +18,20 @@ import AwesomeCache
 import SweetFoundation
 import Teapot
 
-@objc public enum UserRegisterStatus: Int {
+@objc enum UserRegisterStatus: Int {
     case existing = 0, registered, failed
 }
 
-@objc public class IDAPIClient: NSObject, CacheExpiryDefault {
-    @objc public static let shared: IDAPIClient = IDAPIClient()
+@objc class IDAPIClient: NSObject, CacheExpiryDefault {
+    @objc static let shared: IDAPIClient = IDAPIClient()
 
-    public static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
+    static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
 
-    public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
+    static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
 
-    public static let allowedSearchTermCharacters = CharacterSet.urlQueryAllowed.subtracting(CharacterSet(charactersIn: ":/?#[]@!$&'()*+,;= "))
+    static let allowedSearchTermCharacters = CharacterSet.urlQueryAllowed.subtracting(CharacterSet(charactersIn: ":/?#[]@!$&'()*+,;= "))
 
-    public var teapot: Teapot
+    var teapot: Teapot
 
     private let topRatedUsersCachedDataKey = "topRatedUsersCachedData"
     private let latestUsersCachedDataKey = "latestUsersCachedData"
@@ -63,7 +63,7 @@ import Teapot
         return queue
     }()
 
-    public var baseURL: URL
+    var baseURL: URL
 
     convenience init(teapot: Teapot, cacheEnabled: Bool = true) {
         self.init()
@@ -152,7 +152,7 @@ import Teapot
         }
     }
 
-    public func migrateCurrentUserIfNeeded() {
+    func migrateCurrentUserIfNeeded() {
         guard let user = TokenUser.current, user.paymentAddress != Cereal.shared.paymentAddress else {
             return
         }
@@ -163,7 +163,7 @@ import Teapot
         updateUser(userDict) { _, _ in }
     }
 
-    @objc public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
+    @objc func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
         retrieveUser(username: Cereal.shared.address) { user in
 
             guard user == nil else {
@@ -219,7 +219,7 @@ import Teapot
         }
     }
 
-    public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
+    func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
                 completion(false, error)
@@ -266,7 +266,7 @@ import Teapot
         }
     }
 
-    public func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
+    func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
                 completion(false, error)
@@ -323,7 +323,7 @@ import Teapot
     /// - Parameters:
     ///   - username: username of id address
     ///   - completion: called on completion
-    @objc public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
+    @objc func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
 
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             var resultUser: TokenUser?
@@ -346,7 +346,7 @@ import Teapot
         }
     }
 
-    public func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
+    func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
 
         self.teapot.get("/v1/user/\(name)") { [weak self] (result: NetworkResult) in
             guard let strongSelf = self else {
@@ -378,7 +378,7 @@ import Teapot
         }
     }
 
-    public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
+    func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
         let query = name.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? name
         self.teapot.get("/v1/search/user?query=\(query)") { (result: NetworkResult) in
             var results: [TokenUser] = []
@@ -411,7 +411,7 @@ import Teapot
         }
     }
 
-    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
+    func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
         if let data = self.cache.object(forKey: topRatedUsersCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
@@ -449,7 +449,7 @@ import Teapot
         }
     }
 
-    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
+    func getLatestPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
         if let data = self.cache.object(forKey: latestUsersCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
@@ -487,7 +487,7 @@ import Teapot
         }
     }
 
-    public func reportUser(address: String, reason: String = "", completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
+    func reportUser(address: String, reason: String = "", completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
                 completion(false, error)
@@ -541,7 +541,7 @@ import Teapot
         }
     }
 
-    public func adminLogin(loginToken: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
+    func adminLogin(loginToken: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
                 completion(false, error)

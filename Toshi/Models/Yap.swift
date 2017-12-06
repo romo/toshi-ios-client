@@ -20,7 +20,7 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
-@objc public enum YapInconsistencyError: Int {
+@objc enum YapInconsistencyError: Int {
     case none
     case missingDatabaseFile
     case missingKeychainPassword
@@ -60,23 +60,23 @@ private struct UserDB {
     }
 }
 
-public final class Yap: NSObject, Singleton {
+final class Yap: NSObject, Singleton {
     @objc var database: YapDatabase?
 
-    public var mainConnection: YapDatabaseConnection?
+    var mainConnection: YapDatabaseConnection?
 
-    @objc public static let sharedInstance = Yap()
-    @objc public static var isUserDatabaseFileAccessible: Bool {
+    @objc static let sharedInstance = Yap()
+    @objc static var isUserDatabaseFileAccessible: Bool {
         return FileManager.default.fileExists(atPath: UserDB.dbFilePath)
     }
 
-    @objc public static var isUserDatabasePasswordAccessible: Bool {
+    @objc static var isUserDatabasePasswordAccessible: Bool {
         return UserDefaultsWrapper.isDatabasePasswordAccessible
     }
 
-    @objc public static var inconsistentStateDescription = inconsistencyError.description
+    @objc static var inconsistentStateDescription = inconsistencyError.description
 
-    @objc public static var inconsistencyError: YapInconsistencyError = isUserDatabaseFileAccessible ? .missingKeychainPassword : .missingDatabaseFile
+    @objc static var inconsistencyError: YapInconsistencyError = isUserDatabaseFileAccessible ? .missingKeychainPassword : .missingDatabaseFile
 
     private override init() {
         super.init()
@@ -87,7 +87,7 @@ public final class Yap: NSObject, Singleton {
         }
     }
 
-    public func setupForNewUser(with address: String) {
+    func setupForNewUser(with address: String) {
         useBackedDBIfNeeded()
 
         let keychain = KeychainSwift()
@@ -110,7 +110,7 @@ public final class Yap: NSObject, Singleton {
         createBackupDirectoryIfNeeded()
     }
 
-    @objc public func wipeStorage() {
+    @objc func wipeStorage() {
         if TokenUser.current?.verified == false {
             CrashlyticsLogger.log("Deleting database files for signed out user")
 
@@ -122,7 +122,7 @@ public final class Yap: NSObject, Singleton {
         backupUserDBFile()
     }
 
-    @objc public func processInconsistencyError() {
+    @objc func processInconsistencyError() {
         CrashlyticsLogger.log("Deleting database files for signed out user")
         removeDatabaseFileAndPassword()
     }
@@ -230,7 +230,7 @@ public final class Yap: NSObject, Singleton {
     ///   - key: Key to store and retrieve object.
     ///   - collection: Optional. The name of the collection the object belongs to. Helps with organisation.
     ///   - metadata: Optional. Any serialisable object. Could be a related object, a description, a timestamp, a dictionary, and so on.
-    public final func insert(object: Any?, for key: String, in collection: String? = nil, with metadata: Any? = nil) {
+    final func insert(object: Any?, for key: String, in collection: String? = nil, with metadata: Any? = nil) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.mainConnection?.asyncReadWrite { transaction in
                 transaction.setObject(object, forKey: key, inCollection: collection, withMetadata: metadata)
@@ -238,7 +238,7 @@ public final class Yap: NSObject, Singleton {
         }
     }
 
-    public final func removeObject(for key: String, in collection: String? = nil) {
+    final func removeObject(for key: String, in collection: String? = nil) {
         mainConnection?.asyncReadWrite { transaction in
             transaction.removeObject(forKey: key, inCollection: collection)
         }
@@ -248,7 +248,7 @@ public final class Yap: NSObject, Singleton {
     ///
     /// - Parameter key: Key to check for the presence of a stored object.
     /// - Returns: Bool whether or not a certain object was stored for that key.
-    public final func containsObject(for key: String, in collection: String? = nil) -> Bool {
+    final func containsObject(for key: String, in collection: String? = nil) -> Bool {
         return retrieveObject(for: key, in: collection) != nil
     }
 
@@ -258,7 +258,7 @@ public final class Yap: NSObject, Singleton {
     ///   - key: Key used to store the object
     ///   - collection: Optional. The name of the collection the object was stored in.
     /// - Returns: The stored object.
-    public final func retrieveObject(for key: String, in collection: String? = nil) -> Any? {
+    final func retrieveObject(for key: String, in collection: String? = nil) -> Any? {
         var object: Any?
         mainConnection?.read { transaction in
             object = transaction.object(forKey: key, inCollection: collection)
@@ -272,7 +272,7 @@ public final class Yap: NSObject, Singleton {
     /// - Parameters:
     ///   - collection: The name of the collection to be retrieved.
     /// - Returns: The stored objects inside the collection.
-    @objc public final func retrieveObjects(in collection: String) -> [Any] {
+    @objc final func retrieveObjects(in collection: String) -> [Any] {
         var objects = [Any]()
 
         mainConnection?.read { transaction in

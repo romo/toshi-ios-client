@@ -16,8 +16,8 @@
 import Foundation
 import KeychainSwift
 
-public extension NSNotification.Name {
-    public static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "SwitchedNetworkChanged")
+extension NSNotification.Name {
+    static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "SwitchedNetworkChanged")
 }
 
 enum NetworkInfo {
@@ -38,8 +38,8 @@ enum NetworkInfo {
     }
 }
 
-public enum Network: String {
-    public typealias RawValue = String
+enum Network: String {
+    typealias RawValue = String
 
     case mainNet = "1"
     case ropstenTestNetwork = "3"
@@ -68,7 +68,7 @@ public enum Network: String {
     }
 }
 
-public final class NetworkSwitcher {
+final class NetworkSwitcher {
     static let shared = NetworkSwitcher()
     private let keychain = KeychainSwift()
 
@@ -78,7 +78,7 @@ public final class NetworkSwitcher {
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
     }
 
-    public var activeNetwork: Network {
+    var activeNetwork: Network {
         guard let switched = self.switchedNetwork else {
             return defaultNetwork
         }
@@ -86,27 +86,27 @@ public final class NetworkSwitcher {
         return switched
     }
 
-    public var defaultNetworkBaseUrl: String {
+    var defaultNetworkBaseUrl: String {
         return defaultNetwork.baseURL
     }
 
-    public var isDefaultNetworkActive: Bool {
+    var isDefaultNetworkActive: Bool {
         return activeNetwork.rawValue == defaultNetwork.rawValue
     }
 
-    public var activeNetworkLabel: String {
+    var activeNetworkLabel: String {
         return activeNetwork.label
     }
 
-    public var activeNetworkBaseUrl: String {
+    var activeNetworkBaseUrl: String {
         return activeNetwork.baseURL
     }
 
-    public var activeNetworkID: String {
+    var activeNetworkID: String {
         return activeNetwork.rawValue
     }
 
-    public var availableNetworks: [Network] {
+    var availableNetworks: [Network] {
         #if DEBUG || TOSHIDEV
             return [.ropstenTestNetwork, .toshiTestNetwork]
         #else
@@ -114,7 +114,7 @@ public final class NetworkSwitcher {
         #endif
     }
 
-    public func activateNetwork(_ network: Network?) {
+    func activateNetwork(_ network: Network?) {
         guard network?.rawValue != _switchedNetwork?.rawValue else { return }
 
         deregisterFromActiveNetworkPushNotificationsIfNeeded { success, _ in
