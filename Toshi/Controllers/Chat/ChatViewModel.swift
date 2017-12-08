@@ -231,6 +231,12 @@ final class ChatViewModel {
                 case .insert:
                     guard let signalMessage = dbExtension.object(at: newIndexPath, with: strongSelf.mappings) as? TSMessage else { return }
 
+                    if let incomingMessage = signalMessage as? TSIncomingMessage, !incomingMessage.wasRead {
+                        self?.editingDatabaseConnection?.asyncReadWrite { transaction in
+                            incomingMessage.markAsRead(with: transaction, sendReadReceipt: false, updateExpiration: false)
+                        }
+                    }
+
                     DispatchQueue.main.async {
                         let result = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true)
 
