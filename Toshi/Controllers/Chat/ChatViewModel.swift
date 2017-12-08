@@ -233,7 +233,7 @@ final class ChatViewModel {
 
                     if let incomingMessage = signalMessage as? TSIncomingMessage, !incomingMessage.wasRead {
                         self?.editingDatabaseConnection?.asyncReadWrite { transaction in
-                            incomingMessage.markAsRead(with: transaction, sendReadReceipt: false, updateExpiration: false)
+                            incomingMessage.markAsRead(with: transaction, sendReadReceipt: true, updateExpiration: false)
                         }
                     }
 
