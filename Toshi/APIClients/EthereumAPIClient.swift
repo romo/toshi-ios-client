@@ -193,7 +193,10 @@ class EthereumAPIClient: NSObject {
     @objc func registerForMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
-            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _, _ in }
+
+            DispatchQueue.main.async {
+                self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _, _ in }
+            }
         }
     }
 
@@ -207,7 +210,10 @@ class EthereumAPIClient: NSObject {
 
         timestamp(switchedNetworkTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
-            self.registerForPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
+
+            DispatchQueue.main.async {
+                self.registerForPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
+            }
         }
     }
 
