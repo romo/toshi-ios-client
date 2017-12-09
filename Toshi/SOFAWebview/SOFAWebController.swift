@@ -63,7 +63,7 @@ final class SOFAWebController: UIViewController {
     }()
 
     private lazy var webView: WKWebView = {
-        let view = WKWebView(frame: self.view.frame, configuration: self.webViewConfiguration)
+        let view = WKWebView(frame: .zero, configuration: self.webViewConfiguration)
         view.allowsBackForwardNavigationGestures = true
         view.scrollView.isScrollEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -125,7 +125,15 @@ final class SOFAWebController: UIViewController {
 
         toolbar.set(height: 44)
         hidesBottomBarWhenPushed = true
-        webView.fillSuperview()
+        webView.edgesToSuperview(excluding: .bottom)
+
+        let anchor: NSLayoutYAxisAnchor
+        if #available(iOS 11, *) {
+            anchor = self.view.safeAreaLayoutGuide.bottomAnchor
+        } else {
+            anchor = self.bottomLayoutGuide.topAnchor
+        }
+        webView.bottomAnchor.constraint(equalTo: anchor).isActive = true
     }
 
     func load(url: URL) {
