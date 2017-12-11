@@ -47,7 +47,6 @@
 		14A769E11E72EC70007B4C1A /* DistributionTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */; };
 		14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */; };
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
-		29CB20EAEF7C09779E570D1B /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */; };
 		2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
 		2B002D901F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
 		2B0EF8291F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
@@ -1211,7 +1210,6 @@
 				9FF9579F1EEEB7BA00DDCBD8 /* SweetSwift.framework in Frameworks */,
 				9FF957A11EEEB7BA00DDCBD8 /* HDWallet.framework in Frameworks */,
 				C1128E2CDD482DB9BE1BF5A3 /* libPods-CocoaPods-Distribution.a in Frameworks */,
-				29CB20EAEF7C09779E570D1B /* libPods-CocoaPods-Distribution.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2215,7 +2213,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Bakken&Baeck";
 				TargetAttributes = {
 					14147EA01E8119F0006BD47B = {
