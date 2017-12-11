@@ -254,7 +254,10 @@ extension ProfileViewController: PaymentControllerDelegate {
 
         PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
             self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] transaction, _ in
+            }, approveHandler: { [weak self] transaction, error in
+
+                guard error == nil else { return }
+                
                 self?.sendPayment(with: parameters, transaction: transaction)
         })
     }

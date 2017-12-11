@@ -21,11 +21,23 @@ final class PaymentConfirmation {
 
     public func present(for parameters: [String: Any], title: String, message: String, presentCompletionHandler: (() -> Void)? = nil, approveHandler: ((String?, ToshiError?) -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {
 
-        EthereumAPIClient.shared.transactionSkeleton(for: parameters) { skeleton, error in
+        EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             var estimatedFeesString = ""
 
             let confirmationTitle = title
             var messageText = message
+
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    presentCompletionHandler?()
+
+                    self?.presentTransactionSkeletonError {
+                        approveHandler?(nil, error)
+                    }
+                }
+
+                return
+            }
 
             if let gasPrice = skeleton.gasPrice, let gas = skeleton.gas {
 
@@ -41,7 +53,8 @@ final class PaymentConfirmation {
 
                 DispatchQueue.main.async {
                     presentCompletionHandler?()
-                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
+
+                    self?.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
                         approveHandler?(skeleton.transaction, error)
                     }, cancelHandler: cancelHandler)
                 }
@@ -50,12 +63,23 @@ final class PaymentConfirmation {
                 DispatchQueue.main.async {
                     presentCompletionHandler?()
 
-                    self.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
+                    self?.showPaymentConfirmation(title: confirmationTitle, message: messageText, approveHandler: {
                         approveHandler?(skeleton.transaction, error)
                     }, cancelHandler: cancelHandler)
                 }
             }
         }
+    }
+
+    private func presentTransactionSkeletonError(_ completion: @escaping (() -> Void)) {
+        let alert = UIAlertController(title: Localized("error_title"), message: Localized("transaction_skeleton_error_description"), preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            alert.dismiss(animated: true, completion: nil)
+            completion()
+        }))
+
+        Navigator.presentModally(alert)
     }
 
     private func showPaymentConfirmation(title: String, message: String, approveHandler: (() -> Void)? = nil, cancelHandler: (() -> Void)? = nil) {

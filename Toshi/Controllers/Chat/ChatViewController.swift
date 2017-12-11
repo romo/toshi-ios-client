@@ -590,9 +590,7 @@ extension ChatViewController: MessagesPaymentCellDelegate {
                 self?.hideActivityIndicator()
             }, approveHandler: { [weak self] transaction, error in
 
-                if let error = error {
-                    Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: error.description)
-                }
+                guard error == nil else { return }
 
                 self?.approvePaymentForIndexPath(indexPath, transaction: transaction)
             })

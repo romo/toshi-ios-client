@@ -240,6 +240,8 @@
 "toshi_error_data_task_error" = "Data task error, request could not be completed";
 "toshi_generic_error" = "Something went wrong";
 
+"transaction_skeleton_error_description" = "Unable to estimate Ethereum network fees";
+
 "error_title" = "Error";
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
