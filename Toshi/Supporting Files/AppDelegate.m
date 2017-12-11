@@ -18,12 +18,11 @@
 #import <SignalServiceKit/OWSDispatch.h>
 #import <SignalServiceKit/ProfileManagerProtocol.h>
 #import "ProfileManager.h"
-#import "PrekeysRequest.h"
 
 #import <AxolotlKit/SessionCipher.h>
+#import "PreKeyHandler.h"
 
 NSString *const ChatSertificateName = @"token";
-NSUInteger const PREKEY_MINIMUM_COUNT = 20;
 
 @import WebRTC;
 
@@ -382,57 +381,7 @@ NSUInteger const PREKEY_MINIMUM_COUNT = 20;
     [self configureAndPresentWindow];
     [SignalNotificationManager updateUnreadMessagesNumber];
 
-    [self tryRetrievingPrekeys];
-}
-
-- (void)tryRetrievingPrekeys
-{
-    NSURL *url = [NSURL URLWithString:textSecureKeysAPI];
-
-    __weak typeof(self) weakSelf = self;
-    [self.networkManager makeRequest:[[PrekeysRequest alloc] initWithURL:url] success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-
-        typeof(self)strongSelf = weakSelf;
-
-        NSDictionary *responseDict = (NSDictionary *)responseObject;
-        NSInteger prekeysCount = [responseDict[@"count"] integerValue];
-        if (prekeysCount < PREKEY_MINIMUM_COUNT) {
-            [strongSelf refreshPrekeys];
-        }
-    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-
-        [CrashlyticsLogger log:@"Failed retrieve prekeys - triggering Chat register" attributes:nil];
-
-        if (error.code == 401) {
-            [ChatAPIClient.shared registerUserWithCompletion:^(BOOL success) {
-                if (success) {
-                    [CrashlyticsLogger log:@"Successfully registered user with chat service after forced trigger" attributes:nil];
-                } else {
-                    [CrashlyticsLogger log:@"Failed to register user with chat service after forced trigger" attributes:nil];
-                }
-            }];
-        }
-    }];
-}
-
-- (void)refreshPrekeys
-{
-    [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
-                                     success:^{
-                                         [CrashlyticsLogger log:@"Successfully refreshed prekeys" attributes:nil];
-                                     } failure:^(NSError *error) {
-                                         [CrashlyticsLogger log:@"Failed registering prekeys - triggering Chat register" attributes:nil];
-
-                                         if (error.code == 401) {
-                                             [ChatAPIClient.shared registerUserWithCompletion:^(BOOL success) {
-                                                 if (success) {
-                                                     [CrashlyticsLogger log:@"Successfully registered user with chat service after forced trigger" attributes:nil];
-                                                 } else {
-                                                     [CrashlyticsLogger log:@"Failed to register user with chat service after forced trigger" attributes:nil];
-                                                 }
-                                             }];
-                                         }
-                                     }];
+    [PreKeyHandler tryRetrievingPrekeys];
 }
 
 - (void)deactivateScreenProtection

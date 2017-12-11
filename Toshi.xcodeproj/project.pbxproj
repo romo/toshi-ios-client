@@ -121,6 +121,9 @@
 		2BD0A4D11FDEAAF900D745BF /* PrekeysRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D01FDEAAF900D745BF /* PrekeysRequest.m */; };
 		2BD0A4D21FDEAAF900D745BF /* PrekeysRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D01FDEAAF900D745BF /* PrekeysRequest.m */; };
 		2BD0A4D31FDEAAF900D745BF /* PrekeysRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D01FDEAAF900D745BF /* PrekeysRequest.m */; };
+		2BD0A4D61FDEBDCB00D745BF /* PreKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D51FDEBDCB00D745BF /* PreKeyHandler.m */; };
+		2BD0A4D71FDEBDCB00D745BF /* PreKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D51FDEBDCB00D745BF /* PreKeyHandler.m */; };
+		2BD0A4D81FDEBDCB00D745BF /* PreKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0A4D51FDEBDCB00D745BF /* PreKeyHandler.m */; };
 		2BD0AC8C1F278677000D2A58 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
@@ -898,6 +901,8 @@
 		2BC85F7E1F0F946600BCB171 /* InputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
 		2BD0A4CF1FDEAAF800D745BF /* PrekeysRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrekeysRequest.h; sourceTree = "<group>"; };
 		2BD0A4D01FDEAAF900D745BF /* PrekeysRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrekeysRequest.m; sourceTree = "<group>"; };
+		2BD0A4D41FDEBDCB00D745BF /* PreKeyHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreKeyHandler.h; sourceTree = "<group>"; };
+		2BD0A4D51FDEBDCB00D745BF /* PreKeyHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreKeyHandler.m; sourceTree = "<group>"; };
 		2BD0AC8B1F278677000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
@@ -1561,6 +1566,8 @@
 			children = (
 				9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */,
 				9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */,
+				2BD0A4D41FDEBDCB00D745BF /* PreKeyHandler.h */,
+				2BD0A4D51FDEBDCB00D745BF /* PreKeyHandler.m */,
 				9FF00E351EB20F3500A854A8 /* EmptyCallHandler.h */,
 				9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */,
 				D197BC29CA8C5D37D1FA122F /* TestAppDelegate.h */,
@@ -2984,6 +2991,7 @@
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
 				149F9AAC1E72E29A00FB74AA /* AppsAPIClient.swift in Sources */,
+				2BD0A4D81FDEBDCB00D745BF /* PreKeyHandler.m in Sources */,
 				149F9AAD1E72E29A00FB74AA /* QRCodeController.swift in Sources */,
 				A91629131F3C6611008A7F36 /* PaymentAddressInputView.swift in Sources */,
 				149F9AAE1E72E29A00FB74AA /* PaymentController.swift in Sources */,
@@ -3178,6 +3186,7 @@
 				A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
+				2BD0A4D61FDEBDCB00D745BF /* PreKeyHandler.m in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
@@ -3372,6 +3381,7 @@
 				A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */,
 				A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */,
 				A9603F141F4DABDC00BF57B1 /* AppsAPIClient.swift in Sources */,
+				2BD0A4D71FDEBDCB00D745BF /* PreKeyHandler.m in Sources */,
 				A9603F181F4DABDC00BF57B1 /* QRCodeController.swift in Sources */,
 				A9603F191F4DABDC00BF57B1 /* PaymentAddressInputView.swift in Sources */,
 				A9603F1E1F4DABDC00BF57B1 /* PaymentController.swift in Sources */,
