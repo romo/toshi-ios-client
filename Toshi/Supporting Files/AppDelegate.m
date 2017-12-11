@@ -387,8 +387,7 @@ NSUInteger const PREKEY_MINIMUM_COUNT = 20;
 
 - (void)tryRetrievingPrekeys
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",
-                                       textSecureKeysAPI]];
+    NSURL *url = [NSURL URLWithString:textSecureKeysAPI];
 
     __weak typeof(self) weakSelf = self;
     [self.networkManager makeRequest:[[PrekeysRequest alloc] initWithURL:url] success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
