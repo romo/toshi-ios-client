@@ -448,8 +448,23 @@ extension ChatViewController: UITableViewDataSource {
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let message = viewModel.messageModels[indexPath.item]
+
+        if message.type == .status {
+            return dequeueStatusCell(message: message, indexPath: indexPath)
+        } else {
+            return dequeueMessageBasicCell(message: message, indexPath: indexPath)
+        }
+    }
+
+    private func dequeueStatusCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
-        
+
+        return cell
+    }
+
+    private func dequeueMessageBasicCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
+
         if let cell = cell as? MessagesBasicCell {
 
             if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath {
@@ -485,7 +500,6 @@ extension ChatViewController: UITableViewDataSource {
         }
 
         cell.transform = self.tableView.transform
-
         return cell
     }
 
@@ -553,7 +567,7 @@ extension MessageModel {
         case .paymentRequest, .payment:
             return MessagesPaymentCell.reuseIdentifier
         case .status:
-            return MessagesStatusCell.reuseIdentifier
+            return StatusCell.reuseIdentifier
         }
     }
 }
