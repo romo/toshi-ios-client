@@ -248,3 +248,4 @@
 
 /* Status messages */
 "status_type_added" = "%@ added %@ to the group";
+"status_type_rename" = "%@ renamed the group to %@";

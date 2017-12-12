@@ -43,8 +43,8 @@ final class SofaStatus: SofaWrapper {
         return statusType
     }
     // The types of the object and subjects of the action will probably be user id's int he end
-    var subject: String {
-        return json["subject"] as? String ?? ""
+    var subject: String? {
+        return json["subject"] as? String
     }
     
     // object is optional since this is only used in added "Marek added Robert" (where Robert is the subject)
@@ -53,19 +53,19 @@ final class SofaStatus: SofaWrapper {
     }
 
     var attributedText: NSAttributedString? {
+        guard let subject = subject else { return nil }
+
        switch statusType {
        case .leave:
         break
        case .added:
-           if let object = object {
-               return attributedStringFor(Localized("status_type_added"), with: [subject, object])
-           } else {
-               return attributedStringFor(Localized("status_type_added"), with: [subject])
-           }
+           guard let object = object else { return nil }
+           return attributedStringFor(Localized("status_type_added"), with: [subject, object])
        case .changePhoto:
         break
        case .rename:
-        break
+           guard let object = object else { return nil }
+           return attributedStringFor(Localized("status_type_rename"), with: [subject, object])
        default:
         break
        }
