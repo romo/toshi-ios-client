@@ -247,4 +247,4 @@
 "sign_alert_title" = "This webpage is requesting your signature";
 
 /* Status messages */
-"status_type_added" = "%@ added %@";
+"status_type_added" = "%@ added %@ to the group";
