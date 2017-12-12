@@ -80,11 +80,11 @@ final class SofaStatus: SofaWrapper {
 
     private func attributedStringFor(_ string: String, with boldStrings: [String]) -> NSAttributedString {
         let string = String(format: string, arguments: boldStrings)
-        var attributedString = NSMutableAttributedString(string: string)
+        let attributedString = NSMutableAttributedString(string: string)
 
-        var normalAttributes = [NSAttributedStringKey.font : Theme.preferredFootnote()]
+        let normalAttributes = [NSAttributedStringKey.font: Theme.preferredFootnote()]
         attributedString.addAttributes(normalAttributes, range: string.nsRange(forSubstring: string))
-        var boldAttributes = [NSAttributedStringKey.font : Theme.preferredFootnoteBold()]
+        let boldAttributes = [NSAttributedStringKey.font: Theme.preferredFootnoteBold()]
 
         for boldString in boldStrings {
             attributedString.addAttributes(boldAttributes, range: string.nsRange(forSubstring: boldString))
