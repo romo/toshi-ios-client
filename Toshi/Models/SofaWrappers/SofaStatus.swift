@@ -79,7 +79,7 @@ final class SofaStatus: SofaWrapper {
 
         var normalAttributes = [NSAttributedStringKey.font : Theme.preferredFootnote()]
         attributedString.addAttributes(normalAttributes, range: string.nsRange(forSubstring: string))
-        var boldAttributes = [NSAttributedStringKey.font : Theme.bold(size: 13)]
+        var boldAttributes = [NSAttributedStringKey.font : Theme.preferredFootnoteBold()]
 
         for boldString in boldStrings {
             attributedString.addAttributes(boldAttributes, range: string.nsRange(forSubstring: boldString))
