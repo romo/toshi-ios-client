@@ -75,11 +75,11 @@ final class SofaStatus: SofaWrapper {
         var attributedString = NSMutableAttributedString(string: string)
 
         var normalAttributes = [NSAttributedStringKey.font : Theme.preferredFootnote()]
-        var boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 13)]
+        attributedString.addAttributes(normalAttributes, range: string.nsRange(forSubstring: string))
+        var boldAttributes = [NSAttributedStringKey.font : Theme.bold(size: 13)]
 
         for boldString in boldStrings {
-            guard let range = string.range(of: boldString) else { break }
-            attributedString.addAttributes(boldAttributes, range: NSRange(range, in: string))
+            attributedString.addAttributes(boldAttributes, range: string.nsRange(forSubstring: boldString))
         }
 
         return attributedString
@@ -87,5 +87,13 @@ final class SofaStatus: SofaWrapper {
 
     convenience init(body: String) {
         self.init(content: ["body": body])
+    }
+}
+
+extension String {
+    func nsRange(forSubstring substring: String) -> NSRange {
+        guard let range = range(of: substring) else { return NSRange(location: 0, length: 0) }
+
+        return NSRange(range, in: self)
     }
 }
