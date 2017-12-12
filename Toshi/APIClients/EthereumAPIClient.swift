@@ -129,11 +129,11 @@ class EthereumAPIClient: NSObject {
                 return
             }
 
-            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
-            let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = cereal.sha3WithID(string: payloadString)
+            let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headers: [String: String] = [
-                "Token-ID-Address": cereal.paymentAddress,
+                "Token-ID-Address": cereal.address,
                 "Token-Signature": signature,
                 "Token-Timestamp": timestamp
             ]
@@ -282,7 +282,7 @@ class EthereumAPIClient: NSObject {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let cereal = Cereal.shared
-        let address = cereal.paymentAddress
+        let address = cereal.address
         let path = "/v1/apn/deregister"
 
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
@@ -292,8 +292,8 @@ class EthereumAPIClient: NSObject {
             return
         }
 
-        let hashedPayload = cereal.sha3WithWallet(string: payloadString)
-        let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+        let hashedPayload = cereal.sha3WithID(string: payloadString)
+        let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
         let headerFields: [String: String] = [
             "Token-ID-Address": address,
