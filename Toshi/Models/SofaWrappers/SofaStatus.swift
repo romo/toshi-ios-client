@@ -25,6 +25,7 @@ final class SofaStatus: SofaWrapper {
         case leave
         case added
         case changePhoto
+        case rename
         case none
     }
 
@@ -63,7 +64,9 @@ final class SofaStatus: SofaWrapper {
            }
        case .changePhoto:
         break
-       case .none:
+       case .rename:
+        break
+       default:
         break
        }
 
