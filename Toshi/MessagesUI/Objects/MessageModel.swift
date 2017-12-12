@@ -16,6 +16,7 @@ struct MessageModel {
     var title: String?
     var subtitle: String?
     let text: String?
+    let attributedText: NSAttributedString?
     let isOutgoing: Bool
 
     var identifier: String {
@@ -53,6 +54,7 @@ struct MessageModel {
 
         subtitle = message.subtitle
         text = message.text
+        attributedText = message.attributedText
 
         signalMessage = message.signalMessage
         sofaWrapper = message.sofaWrapper

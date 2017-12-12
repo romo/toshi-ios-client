@@ -138,11 +138,15 @@ class Message: NSObject {
             return nil
         case .command:
             return (sofaWrapper as? SofaCommand)?.body
-        case .status:
-            return (sofaWrapper as? SofaStatus)?.text
         default:
             return sofaWrapper.content
         }
+    }
+
+    var attributedText: NSAttributedString? {
+        guard let sofaWrapper = self.sofaWrapper, sofaWrapper.type == .status else { return nil }
+
+        return (sofaWrapper as? SofaStatus)?.attributedText
     }
 
     func uniqueIdentifier() -> String {

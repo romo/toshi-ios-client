@@ -51,19 +51,38 @@ final class SofaStatus: SofaWrapper {
         return json["object"] as? String
     }
 
-    var text: String? {
+    var attributedText: NSAttributedString? {
        switch statusType {
        case .leave:
         break
        case .added:
-        return String(format: Localized("status_type_added"), arguments: [subject, object ?? ""])
+           if let object = object {
+               return attributedStringFor(Localized("status_type_added"), with: [subject, object])
+           } else {
+               return attributedStringFor(Localized("status_type_added"), with: [subject])
+           }
        case .changePhoto:
         break
        case .none:
         break
        }
 
-        return ""
+        return nil
+    }
+
+    private func attributedStringFor(_ string: String, with boldStrings: [String]) -> NSAttributedString {
+        let string = String(format: string, arguments: boldStrings)
+        var attributedString = NSMutableAttributedString(string: string)
+
+        var normalAttributes = [NSAttributedStringKey.font : Theme.preferredFootnote()]
+        var boldAttributes = [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 13)]
+
+        for boldString in boldStrings {
+            guard let range = string.range(of: boldString) else { break }
+            attributedString.addAttributes(boldAttributes, range: NSRange(range, in: string))
+        }
+
+        return attributedString
     }
 
     convenience init(body: String) {

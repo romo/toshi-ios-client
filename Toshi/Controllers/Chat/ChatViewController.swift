@@ -468,7 +468,7 @@ extension ChatViewController: UITableViewDataSource {
     }
 
     private func dequeueStatusCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: StatusCell.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = message.text
 
         return cell

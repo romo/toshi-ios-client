@@ -79,19 +79,5 @@ class SofaWrapperTests: QuickSpec {
                 }
             }
         }
-
-        describe("receiving status message") {
-            context("with fiatValueString in the content") {
-
-                it("it removes fiatValueString from String content") {
-                    let sofaString = "SOFA::Status:{\"type\":\"added\",\"subject\":\"Robert\",\"object\":\"Marek\"}"
-                    let status = SofaStatus(content: sofaString)
-
-                    expect(status.statusType).to(equal(SofaStatus.StatusType.added))
-                    expect(status.subject).to(equal("Robert"))
-                    expect(status.object).to(equal("Marek"))
-                }
-            }
-        }
     }
 }
