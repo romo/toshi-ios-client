@@ -453,7 +453,7 @@ extension ChatViewController: UITableViewDataSource {
         //WARNING: Don't merge this! It's commented for testing purposes only!
         let realMessage = viewModel.messageModels[indexPath.item]
 
-        let message = Message(sofaWrapper: SofaStatus(content: "SOFA::Status:{\"type\":\"rename\",\"subject\":\"Robert\",\"object\":\"New group name\"}"), signalMessage: realMessage.signalMessage!)
+        let message = Message(sofaWrapper: SofaStatus(content: "SOFA::Status:{\"type\":\"leave\",\"subject\":\"Robert\"}"), signalMessage: realMessage.signalMessage!)
         let messageModel = MessageModel(message: message)
 
         if message.sofaWrapper?.type == SofaType.status {

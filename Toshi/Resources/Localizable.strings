@@ -247,5 +247,9 @@
 "sign_alert_title" = "This webpage is requesting your signature";
 
 /* Status messages */
-"status_type_added" = "%@ added %@ to the group";
-"status_type_rename" = "%@ renamed the group to %@";
+"status_type_leave" = "%@ left the group.";
+"status_type_added" = "%@ added %@ to the group.";
+"status_type_change_photo" = "%@ changed the group cover photo.";
+"status_type_rename" = "%@ renamed the group to %@.";
+"status_type_make_public" = "%@ set the group as public.";
+"status_type_make_private" = "%@ set the group as private.";

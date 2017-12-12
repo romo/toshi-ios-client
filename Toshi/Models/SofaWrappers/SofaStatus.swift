@@ -26,6 +26,8 @@ final class SofaStatus: SofaWrapper {
         case added
         case changePhoto
         case rename
+        case setToPublic
+        case setToPrivate
         case none
     }
 
@@ -55,22 +57,25 @@ final class SofaStatus: SofaWrapper {
     var attributedText: NSAttributedString? {
         guard let subject = subject else { return nil }
 
-       switch statusType {
-       case .leave:
-        break
-       case .added:
-           guard let object = object else { return nil }
-           return attributedStringFor(Localized("status_type_added"), with: [subject, object])
-       case .changePhoto:
-        break
-       case .rename:
-           guard let object = object else { return nil }
-           return attributedStringFor(Localized("status_type_rename"), with: [subject, object])
-       default:
-        break
-       }
+        switch statusType {
+        case .leave:
+            return attributedStringFor(Localized("status_type_leave"), with: [subject])
+        case .added:
+            guard let object = object else { return nil }
+            return attributedStringFor(Localized("status_type_added"), with: [subject, object])
+        case .changePhoto:
+            return attributedStringFor(Localized("status_type_change_photo"), with: [subject])
+        case .rename:
+            guard let object = object else { return nil }
+            return attributedStringFor(Localized("status_type_rename"), with: [subject, object])
+        case .setToPublic:
+            return attributedStringFor(Localized("status_type_make_public"), with: [subject])
+        case .setToPrivate:
+            return attributedStringFor(Localized("status_type_make_private"), with: [subject])
+        default:
+            return nil
+        }
 
-        return nil
     }
 
     private func attributedStringFor(_ string: String, with boldStrings: [String]) -> NSAttributedString {
