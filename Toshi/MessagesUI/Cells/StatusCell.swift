@@ -22,12 +22,24 @@ class StatusCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textLabel?.textAlignment = .center
-        textLabel?.textColor = Theme.mediumTextColor
-        textLabel?.font = Theme.preferredFootnote()
+        setTextLabelStyle()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        setTextLabelStyle()
+    }
+
+    private func setTextLabelStyle() {
+        textLabel?.textAlignment = .center
+        textLabel?.textColor = Theme.mediumTextColor
+        textLabel?.font = Theme.preferredFootnote()
+
+        textLabel?.adjustsFontForContentSizeCategory = true
     }
 }
