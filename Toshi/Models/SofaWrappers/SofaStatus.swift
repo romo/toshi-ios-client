@@ -89,11 +89,3 @@ final class SofaStatus: SofaWrapper {
         self.init(content: ["body": body])
     }
 }
-
-extension String {
-    func nsRange(forSubstring substring: String) -> NSRange {
-        guard let range = range(of: substring) else { return NSRange(location: 0, length: 0) }
-
-        return NSRange(range, in: self)
-    }
-}

@@ -697,6 +697,7 @@
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		ADA43FF3BB04BEDF54DF5CCC /* libPods-CocoaPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AC0CEAA51D7F8A19F246E9 /* libPods-CocoaPods-Tests.a */; };
 		C1128E2CDD482DB9BE1BF5A3 /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E67E3F2BFB7B0171BF61B30 /* libPods-CocoaPods-Distribution.a */; };
+		D197B006BD046DC2E6B46351 /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197B06FE122DE9A80081DAC /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197B0896EF91C2CCF4C5D78 /* SofaIdentifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCEB0A1FF98FE303EDBD /* SofaIdentifierTests.swift */; };
 		D197B0C5E61A152AFA61B5DF /* testImage.png in Resources */ = {isa = PBXBuildFile; fileRef = D197B3AC0E3346D86F7A4559 /* testImage.png */; };
@@ -718,6 +719,7 @@
 		D197B341D7AC04907550BFA3 /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
 		D197B35BF9744D2F37972747 /* EthereumAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */; };
 		D197B3781644ABF575195A69 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
+		D197B38DAA052C5A2FC57DA0 /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197B3CD97B238550A27A173 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
 		D197B3CEF63EDE26D11F3F32 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197B3DE723A39F67001ACC7 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
@@ -744,6 +746,7 @@
 		D197B6D6BB93E0F67FE998CE /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		D197B6EB6C3157476638ABE6 /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
+		D197B6F01E52F247B8982310 /* String+nsRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */; };
 		D197B74275EBC3A229F0D4D9 /* timestamp.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B5835BCEB0D7A2DA6967 /* timestamp.json */; };
 		D197B76039E4B9C45F980CCF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197B77259031691F95DA6AA /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
@@ -772,8 +775,10 @@
 		D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7A2C3032B73635553CD /* ProfileView.swift */; };
 		D197BBDB018E3C6EE3CA3B1B /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
 		D197BBDFE322BAFD2D036076 /* OfflineAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD136059B5C238CB3425 /* OfflineAlertView.swift */; };
+		D197BBE91E49D7B9DCD1B17D /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197BC3B60A96D12312C48B7 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
+		D197BC5E2A33FB5B00A55942 /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197BD08F09124F7B83238F9 /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197BD532AA776C66EDCCDEB /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		D197BD8E4D43B3EFF276694E /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
@@ -1137,6 +1142,7 @@
 		D197B5AD370809E7D2EB3631 /* SofaCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaCommand.swift; sourceTree = "<group>"; };
 		D197B654F730E653B7C6F444 /* sendSignedTransaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sendSignedTransaction.json; sourceTree = "<group>"; };
 		D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINotificationName+Additions.swift"; sourceTree = "<group>"; };
+		D197B695935159A20363BBF9 /* String+nsRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+nsRange.swift"; sourceTree = "<group>"; };
 		D197B6AD4DEFD836C0ECA908 /* SofaWrapperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapperTests.swift; sourceTree = "<group>"; };
 		D197B6D88C3CCC7B7A890925 /* RatingsClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingsClientTests.swift; sourceTree = "<group>"; };
 		D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveNetworkView.swift; sourceTree = "<group>"; };
@@ -1156,6 +1162,7 @@
 		D197BB0710786F9F642F4318 /* score.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = score.json; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalProfileViewController.swift; sourceTree = "<group>"; };
+		D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+nsRangeTests.swift"; sourceTree = "<group>"; };
 		D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaInitialRequest.swift; sourceTree = "<group>"; };
 		D197BC29CA8C5D37D1FA122F /* TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAppDelegate.h; sourceTree = "<group>"; };
 		D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
@@ -1334,6 +1341,7 @@
 				D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */,
 				33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */,
 				D197BAAFB2F184D062E0B675 /* SofaStatusTest.swift */,
+				D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1723,6 +1731,7 @@
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
 				2BF634501F7D568C00235C67 /* UIImage+Utils.h */,
 				2BF634511F7D568C00235C67 /* UIImage+Utils.m */,
+				D197B695935159A20363BBF9 /* String+nsRange.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2832,6 +2841,8 @@
 				D197B329C25288ECA41EC3C8 /* SofaWrapperTests.swift in Sources */,
 				33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */,
 				D197B404D7DAE06ADBAA992D /* SofaStatusTest.swift in Sources */,
+				D197BC5E2A33FB5B00A55942 /* String+nsRange.swift in Sources */,
+				D197B6F01E52F247B8982310 /* String+nsRangeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3027,6 +3038,7 @@
 				D197BFF1B944A12C9733439F /* ProfileView.swift in Sources */,
 				D197B1E9BB5E12653D8EE2CC /* SofaStatus.swift in Sources */,
 				D197B844B1C67758B2A0E9F2 /* StatusCell.swift in Sources */,
+				D197B38DAA052C5A2FC57DA0 /* String+nsRange.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3222,6 +3234,7 @@
 				D197B4267BE0D9E6F9357723 /* ProfileView.swift in Sources */,
 				D197BADE7B88BF0539D8646B /* SofaStatus.swift in Sources */,
 				D197B57BA2EA6533D6523DB0 /* StatusCell.swift in Sources */,
+				D197BBE91E49D7B9DCD1B17D /* String+nsRange.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3417,6 +3430,7 @@
 				D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */,
 				D197B4827BED8F3A5BAB5CB8 /* SofaStatus.swift in Sources */,
 				D197BBDB018E3C6EE3CA3B1B /* StatusCell.swift in Sources */,
+				D197B006BD046DC2E6B46351 /* String+nsRange.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
