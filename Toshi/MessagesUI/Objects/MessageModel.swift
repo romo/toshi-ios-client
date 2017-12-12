@@ -81,6 +81,9 @@ struct MessageModel {
             }
             subtitle = message.ethereumValueString
 
+        } else if message.sofaWrapper?.type == .status {
+            type = .status
+            isActionable = true
         } else if message.image != nil {
             type = .image
             isActionable = false

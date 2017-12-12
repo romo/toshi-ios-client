@@ -92,6 +92,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
         view.register(MessagesTextCell.self)
+        view.register(StatusCell.self)
 
         return view
     }()
