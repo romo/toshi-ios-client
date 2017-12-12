@@ -51,6 +51,20 @@ final class SofaStatus: SofaWrapper {
         return json["object"] as? String
     }
 
+    var text: String? {
+       switch statusType {
+       case .leave:
+        break
+       case .added:
+        return String(format: Localized("status_type_added"), arguments: [subject, object ?? ""])
+       case .changePhoto:
+        break
+       case .none:
+        break
+       }
+
+        return ""
+    }
 
     convenience init(body: String) {
         self.init(content: ["body": body])

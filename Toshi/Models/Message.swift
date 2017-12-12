@@ -138,6 +138,8 @@ class Message: NSObject {
             return nil
         case .command:
             return (sofaWrapper as? SofaCommand)?.body
+        case .status:
+            return (sofaWrapper as? SofaStatus)?.text
         default:
             return sofaWrapper.content
         }
