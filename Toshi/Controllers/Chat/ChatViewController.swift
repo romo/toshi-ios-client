@@ -88,6 +88,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             view.contentInsetAdjustmentBehavior = .never
         }
 
+        view.register(UITableViewCell.self)
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
         view.register(MessagesTextCell.self)
@@ -446,17 +447,23 @@ extension ChatViewController: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 
         //WARNING: Don't merge this! It's commented for testing purposes only!
         let realMessage = viewModel.messageModels[indexPath.item]
+
         let message = Message(sofaWrapper: SofaStatus(content: "SOFA::Status:{\"type\":\"added\",\"subject\":\"Robert\",\"object\":\"Marek\"}"), signalMessage: realMessage.signalMessage!)
         let messageModel = MessageModel(message: message)
 
         if message.sofaWrapper?.type == SofaType.status {
-            return dequeueStatusCell(message: messageModel, indexPath: indexPath)
+            cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
         } else {
-            return dequeueMessageBasicCell(message: messageModel, indexPath: indexPath)
+            cell = dequeueMessageBasicCell(message: messageModel, indexPath: indexPath)
         }
+
+        cell.transform = self.tableView.transform
+
+        return cell
     }
 
     private func dequeueStatusCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
@@ -503,7 +510,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.messageText = message.text
         }
 
-        cell.transform = self.tableView.transform
         return cell
     }
 
