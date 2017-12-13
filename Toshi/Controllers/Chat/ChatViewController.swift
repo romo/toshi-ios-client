@@ -456,7 +456,7 @@ extension ChatViewController: UITableViewDataSource {
         let message = Message(sofaWrapper: SofaStatus(content: "SOFA::Status:{\"type\":\"leave\",\"subject\":\"Robert\"}"), signalMessage: realMessage.signalMessage!)
         let messageModel = MessageModel(message: message)
 
-        if message.sofaWrapper?.type == SofaType.status {
+        if messageModel.sofaWrapper?.type == SofaType.status {
             cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
         } else {
             cell = dequeueMessageBasicCell(message: messageModel, indexPath: indexPath)
@@ -474,10 +474,8 @@ extension ChatViewController: UITableViewDataSource {
         return cell
     }
 
-    private func dequeueMessageBasicCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
-
-        if let cell = cell as? MessagesBasicCell {
+    private func dequeueMessageBasicCell(message: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
 
             if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath {
                 AvatarManager.shared.avatar(for: avatarPath, completion: { image, _ in
@@ -489,7 +487,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.positionType = positionType(for: indexPath)
 
             updateMessageState(message, in: cell)
-        }
 
         if let cell = cell as? MessagesImageCell, message.type == .image {
             cell.messageImage = message.image

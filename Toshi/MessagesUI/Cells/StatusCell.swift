@@ -15,9 +15,7 @@
 
 import UIKit
 
-class StatusCell: UITableViewCell {
-
-    static let reuseIdentifier = "StatusCell"
+final class StatusCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,6 +30,7 @@ class StatusCell: UITableViewCell {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
+        //re-set the label text style to support dynamic type
         setTextLabelStyle()
     }
 

@@ -23,15 +23,13 @@ class SofaStatusTests: QuickSpec {
                     return
                 }
 
-                let fontAttribute = [NSAttributedStringKey.font: Theme.preferredFootnote()]
-
                 let robertRange = attributedText.string.nsRange(forSubstring: "Robert")
                 let boldAttribute = attributedText.attributes(at: robertRange.location, effectiveRange: nil)
-                expect(boldAttribute[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.bold(size: 13)))
+                expect(boldAttribute[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.preferredFootnoteBold()))
 
                 let marekRange = attributedText.string.nsRange(forSubstring: "Marek")
                 let boldAttribute2 = attributedText.attributes(at: marekRange.location, effectiveRange: nil)
-                expect(boldAttribute2[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.bold(size: 13)))
+                expect(boldAttribute2[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.preferredFootnoteBold()))
 
                 let allRange = attributedText.string.nsRange(forSubstring: "added")
                 let normalAttributes = attributedText.attributes(at: allRange.location, effectiveRange: nil)
@@ -55,15 +53,13 @@ class SofaStatusTests: QuickSpec {
                     return
                 }
 
-                let fontAttribute = [NSAttributedStringKey.font: Theme.preferredFootnote()]
-
                 let robertRange = attributedText.string.nsRange(forSubstring: "Robert")
                 let boldAttribute = attributedText.attributes(at: robertRange.location, effectiveRange: nil)
-                expect(boldAttribute[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.bold(size: 13)))
+                expect(boldAttribute[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.preferredFootnoteBold()))
 
                 let marekRange = attributedText.string.nsRange(forSubstring: "New group name")
                 let boldAttribute2 = attributedText.attributes(at: marekRange.location, effectiveRange: nil)
-                expect(boldAttribute2[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.bold(size: 13)))
+                expect(boldAttribute2[NSAttributedStringKey.font] as? UIFont).to(equal(Theme.preferredFootnoteBold()))
 
                 let allRange = attributedText.string.nsRange(forSubstring: "renamed the group to")
                 let normalAttributes = attributedText.attributes(at: allRange.location, effectiveRange: nil)

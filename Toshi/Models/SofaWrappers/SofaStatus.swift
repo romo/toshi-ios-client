@@ -35,50 +35,50 @@ final class SofaStatus: SofaWrapper {
         return .status
     }
 
-    var statusType: StatusType {
-        var statusType = StatusType.none
+    var statusType: StatusType = .none
+    // The types of the object and subjects of the action will probably be user id's int he end
+    var subject: String?
+    var object: String?
+
+    var attributedText: NSAttributedString?
+
+    override init(content: String) {
+        super.init(content: content)
 
         if let statusJSON = json["type"] as? String {
-            statusType = StatusType(rawValue: statusJSON) ?? .none
+            self.statusType = StatusType(rawValue: statusJSON) ?? .none
         }
 
-        return statusType
-    }
-    // The types of the object and subjects of the action will probably be user id's int he end
-    var subject: String? {
-        return json["subject"] as? String
-    }
-    
-    // object is optional since this is only used in added "Marek added Robert" (where Robert is the subject)
-    var object: String? {
-        return json["object"] as? String
+         self.subject = json["subject"] as? String
+         self.object = json["object"] as? String
+
+        self.attributedText = getAttributedText()
     }
 
-    var attributedText: NSAttributedString? {
+    func getAttributedText() -> NSAttributedString? {
         guard let subject = subject else { return nil }
 
         switch statusType {
         case .leave:
-            return attributedStringFor(Localized("status_type_leave"), with: [subject])
+            return attributedString(for: Localized("status_type_leave"), with: [subject])
         case .added:
             guard let object = object else { return nil }
-            return attributedStringFor(Localized("status_type_added"), with: [subject, object])
+            return attributedString(for: Localized("status_type_added"), with: [subject, object])
         case .changePhoto:
-            return attributedStringFor(Localized("status_type_change_photo"), with: [subject])
+            return attributedString(for: Localized("status_type_change_photo"), with: [subject])
         case .rename:
             guard let object = object else { return nil }
-            return attributedStringFor(Localized("status_type_rename"), with: [subject, object])
+            return attributedString(for: Localized("status_type_rename"), with: [subject, object])
         case .setToPublic:
-            return attributedStringFor(Localized("status_type_make_public"), with: [subject])
+            return attributedString(for: Localized("status_type_make_public"), with: [subject])
         case .setToPrivate:
-            return attributedStringFor(Localized("status_type_make_private"), with: [subject])
+            return attributedString(for: Localized("status_type_make_private"), with: [subject])
         default:
             return nil
         }
-
     }
 
-    private func attributedStringFor(_ string: String, with boldStrings: [String]) -> NSAttributedString {
+    private func attributedString(for string: String, with boldStrings: [String]) -> NSAttributedString {
         let string = String(format: string, arguments: boldStrings)
         let attributedString = NSMutableAttributedString(string: string)
 
@@ -91,9 +91,5 @@ final class SofaStatus: SofaWrapper {
         }
 
         return attributedString
-    }
-
-    convenience init(body: String) {
-        self.init(content: ["body": body])
     }
 }

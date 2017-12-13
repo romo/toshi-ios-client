@@ -93,7 +93,7 @@ class SofaWrapper: SofaWrapperProtocol {
         case .payment:
             return SofaPayment(content: content)
         case .status:
-            return SofaPayment(content: content)
+            return SofaStatus(content: content)
         case .none:
             return SofaWrapper(content: "") // should probably crash instead
         }
