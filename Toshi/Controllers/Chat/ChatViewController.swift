@@ -472,7 +472,7 @@ extension ChatViewController: UITableViewDataSource {
         if messageModel.sofaWrapper?.type == SofaType.status {
             cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
         } else {
-            cell = dequeueMessageBasicCell(message: messageModel, indexPath: indexPath)
+            cell = dequeueMessageBasicCell(messageModel: messageModel, indexPath: indexPath)
         }
 
         cell.transform = self.tableView.transform
@@ -487,8 +487,8 @@ extension ChatViewController: UITableViewDataSource {
         return cell
     }
 
-    private func dequeueMessageBasicCell(message: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
+    private func dequeueMessageBasicCell(messageModel: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: messageModel.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
         if !messageModel.isOutgoing, let incomingSignalMessage = messageModel.signalMessage as? TSIncomingMessage, let userId = incomingSignalMessage.authorId as String? {
             AvatarManager.shared.avatar(for: userId, completion: { image, _ in
                 cell.avatarImageView.image = image
@@ -499,7 +499,7 @@ extension ChatViewController: UITableViewDataSource {
         cell.positionType = positionType(for: indexPath)
         cell.delegate = self
 
-        updateMessageState(message, in: cell)
+        updateMessageState(messageModel, in: cell)
 
         if let cell = cell as? MessagesImageCell, messageModel.type == .image {
             cell.messageImage = messageModel.image
