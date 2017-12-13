@@ -83,6 +83,17 @@ class TokenUser: NSObject, NSCoding {
     var displayUsername: String {
         return "@\(username)"
     }
+    
+    /// Returns the display username if the user's name is empty. Useful for places where we're trying to mostly display names, but some users haven't set them.
+    var nameOrDisplayName: String {
+        guard !name.isEmpty else {
+            
+            return displayUsername
+        }
+        
+        return name
+    }
+    
     @objc private(set) var username = ""
     private(set) var about = ""
     private(set) var location = ""
@@ -214,7 +225,27 @@ class TokenUser: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(json, forKey: "jsonData")
     }
-
+    
+    public override func isEqual(_ object: Any?) -> Bool {
+        guard let other = object as? TokenUser else { return false }
+        
+        return self == other
+    }
+    
+    static func == (_ lhs: TokenUser, _ rhs: TokenUser) -> Bool {
+        guard
+            lhs.address == rhs.address,
+            lhs.paymentAddress == rhs.paymentAddress else {
+                return false
+        }
+        
+        return true
+    }
+    
+    public override var hashValue: Int {
+        return address.hashValue
+    }
+    
     func updateVerificationState(_ verified: Bool) {
         self.userSettings[Constants.verified] = verified
         saveSettings()

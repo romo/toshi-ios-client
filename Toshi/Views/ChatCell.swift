@@ -25,11 +25,17 @@ class ChatCell: UITableViewCell {
             configureLastMessageDate()
             configureUnreadBadge()
 
+            guard let thread = self.thread else { return }
+
             guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
+
+            if thread.isGroupThread() {
+                usernameLabel.text = thread.name()
+                avatarImageView.image = (thread as? TSGroupThread)?.groupModel.groupImage
+            } else if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
                 updateContact(contact)
             } else {
-                IDAPIClient.shared.retrieveUser(username: thread?.contactIdentifier() ?? "") { [weak self] contact in
+                IDAPIClient.shared.retrieveUser(username: thread.contactIdentifier() ?? "") { [weak self] contact in
                     guard let contact = contact else { return }
                     self?.updateContact(contact)
                 }

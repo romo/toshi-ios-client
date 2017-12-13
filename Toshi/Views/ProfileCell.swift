@@ -15,35 +15,41 @@
 
 import UIKit
 
-/// Displays user's contacts.
-class ContactCell: UITableViewCell {
-    var contact: TokenUser? {
+final class ProfileCell: UITableViewCell {
+    
+    // MARK: - Properties for configuration
+    
+    static let reuseIdentifier = "ProfileCell"
+    
+    var avatarPath: String? {
         didSet {
-            if let contact = self.contact {
-                if contact.name.isEmpty {
-                    nameLabel.text = contact.displayUsername
-                    usernameLabel.text = nil
-                } else {
-                    usernameLabel.text = contact.displayUsername
-                    nameLabel.text = contact.name
+            guard let path = avatarPath else { return }
+            
+            AvatarManager.shared.avatar(for: path) { [weak self] image, retrievedPath in
+                if image != nil && self?.avatarPath == retrievedPath {
+                    self?.avatarImageView.image = image
                 }
-
-                AvatarManager.shared.avatar(for: contact.avatarPath) { [weak self] image, path in
-                    if image != nil && contact.avatarPath == path {
-                        self?.avatarImageView.image = image
-                    }
-                }
-
-                return
             }
-
-            usernameLabel.text = nil
-            nameLabel.text = nil
-            avatarImageView.image = nil
         }
     }
+    
+    var name: String? {
+        didSet {
+            if let name = name, !name.isEmpty {
+                nameLabel.text = name
+            }
+        }
+    }
+    
+    var displayUsername: String? {
+        didSet {
+            usernameLabel.text = displayUsername
+        }
+    }
+    
+    // MARK: - Lazy Vars
 
-    lazy var nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
         view.font = Theme.preferredSemibold()
@@ -52,7 +58,7 @@ class ContactCell: UITableViewCell {
         return view
     }()
 
-    lazy var usernameLabel: UILabel = {
+    private lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.greyTextColor
         view.font = Theme.preferredRegularSmall()
@@ -61,32 +67,52 @@ class ContactCell: UITableViewCell {
         return view
     }()
 
-    lazy var avatarImageView: AvatarImageView = {
+    private lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
 
-    lazy var separatorView: UIView = {
+    private lazy var separatorView: UIView = {
         let view = UIView(withAutoLayout: true)
         view.backgroundColor = Theme.borderColor
 
         return view
     }()
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        avatarImageView.image = nil
-        nameLabel.text = nil
-        usernameLabel.text = nil
-        contact = nil
+    private lazy var checkmarkView: Checkbox = {
+        let checkbox = Checkbox(frame: CGRect(origin: .zero, size: CGSize(width: 38, height: 38)))
+        checkbox.checked = false
+        return checkbox
+    }()
+    
+    // MARK: - Checkmark helpers
+    
+    var isCheckmarkShowing: Bool {
+        get {
+            return !checkmarkView.isHidden
+        }
+        set {
+            checkmarkView.isHidden = !newValue
+        }
+    }
+    
+    var isCheckmarkChecked: Bool {
+        get {
+            return checkmarkView.checked
+        }
+        set {
+            checkmarkView.checked = newValue
+        }
     }
 
+    // MARK: - Initialization
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(avatarImageView)
+        contentView.addSubview(checkmarkView)
         contentView.addSubview(usernameLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(separatorView)
@@ -100,15 +126,20 @@ class ContactCell: UITableViewCell {
         avatarImageView.centerY(to: contentView)
         avatarImageView.left(to: contentView, offset: margin)
 
+        checkmarkView.centerY(to: contentView)
+        checkmarkView.right(to: contentView, offset: -margin)
+        checkmarkView.layer.borderColor = UIColor.red.cgColor
+        isCheckmarkShowing = false
+        
         nameLabel.height(height, relation: .equalOrGreater)
         nameLabel.top(to: contentView, offset: margin)
         nameLabel.leftToRight(of: avatarImageView, offset: 10)
-        nameLabel.right(to: contentView, offset: -margin)
+        nameLabel.rightToLeft(of: checkmarkView, offset: -margin)
 
         usernameLabel.height(height, relation: .equalOrGreater)
         usernameLabel.topToBottom(of: nameLabel)
         usernameLabel.leftToRight(of: avatarImageView, offset: 10)
-        usernameLabel.right(to: contentView, offset: -margin)
+        usernameLabel.rightToLeft(of: checkmarkView, offset: -margin)
 
         separatorView.height(.lineHeight)
         separatorView.topToBottom(of: usernameLabel, offset: interLabelMargin)
@@ -119,5 +150,18 @@ class ContactCell: UITableViewCell {
 
     required init?(coder _: NSCoder) {
         fatalError()
+    }
+    
+    // MARK: - Recycling
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        avatarImageView.image = nil
+        avatarPath = nil
+        nameLabel.text = nil
+        name = nil
+        usernameLabel.text = nil
+        displayUsername = nil
     }
 }

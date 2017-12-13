@@ -22,8 +22,8 @@ protocol PersonalProfileViewDelegate: class {
 }
 
 protocol ProfileViewDelegate: class {
-    func didTapMessageContactButton(in view: ProfileView)
-    func didTapAddContactButton(in view: ProfileView)
+    func didTapMessageProfileButton(in view: ProfileView)
+    func didTapAddProfileButton(in view: ProfileView)
     func didTapPayButton(in view: ProfileView)
     func didTapRateUser(in view: ProfileView)
 }
@@ -39,7 +39,7 @@ class ProfileView: UIView {
     weak var personalProfileDelegate: PersonalProfileViewDelegate?
     weak var profileDelegate: ProfileViewDelegate?
 
-    func setContact(_ user: TokenUser) {
+    func setProfile(_ user: TokenUser) {
 
         if !user.name.isEmpty {
             nameLabel.text = user.name
@@ -101,11 +101,11 @@ class ProfileView: UIView {
         return view
     }()
 
-    lazy var actionView: ContactActionView = {
-        let view = ContactActionView()
+    lazy var actionView: ProfileActionView = {
+        let view = ProfileActionView()
 
-        view.messageButton.addTarget(self, action: #selector(self.didTapMessageContactButton), for: .touchUpInside)
-        view.addFavoriteButton.addTarget(self, action: #selector(self.didTapAddContactButton), for: .touchUpInside)
+        view.messageButton.addTarget(self, action: #selector(self.didTapMessageProfileButton), for: .touchUpInside)
+        view.addFavoriteButton.addTarget(self, action: #selector(self.didTapAddProfileButton), for: .touchUpInside)
         view.payButton.addTarget(self, action: #selector(self.didTapPayButton), for: .touchUpInside)
 
         return view
@@ -354,12 +354,12 @@ class ProfileView: UIView {
         bottomSeparatorView.bottom(to: reputationBackgroundView)
     }
 
-    @objc private func didTapMessageContactButton() {
-        profileDelegate?.didTapMessageContactButton(in: self)
+    @objc private func didTapMessageProfileButton() {
+        profileDelegate?.didTapMessageProfileButton(in: self)
     }
 
-    @objc private func didTapAddContactButton() {
-        profileDelegate?.didTapAddContactButton(in: self)
+    @objc private func didTapAddProfileButton() {
+        profileDelegate?.didTapAddProfileButton(in: self)
     }
 
     @objc private func didTapPayButton() {

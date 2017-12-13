@@ -20,7 +20,7 @@ import AVFoundation
 
 final class ChatViewController: UIViewController, UINavigationControllerDelegate {
     
-    let thread: TSThread
+    var thread: TSThread
     
     private var isVisible: Bool = false
     private lazy var viewModel = ChatViewModel(output: self, thread: self.thread)
@@ -51,7 +51,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         avatar.set(width: 34.0)
         avatar.isUserInteractionEnabled = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showContactProfile))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showThreadOrRecipientDetails))
         avatar.addGestureRecognizer(tap)
 
         return avatar
@@ -121,6 +121,13 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func updateThread(_ thread: TSThread) {
+        self.thread = thread
+
+        title = thread.name()
+        updateChatAvatar()
+    }
     
     func updateContentInset() {
         let activeNetworkViewHeight = activeNetworkView.heightConstraint?.constant ?? 0
@@ -159,11 +166,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         tabBarController?.tabBar.isHidden = true
 
-        if let avatarPath = viewModel.contact?.avatarPath {
-            AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
-                self?.avatarImageView.image = image
-            })
-        }
+        updateChatAvatar()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
@@ -171,11 +174,20 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         updateBalance()
     }
 
+    private func updateChatAvatar() {
+        if let avatarPath = viewModel.contact?.avatarPath {
+            AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
+                self?.avatarImageView.image = image
+            })
+        } else if thread.isGroupThread() {
+            avatarImageView.image = (thread as? TSGroupThread)?.groupModel.groupImage
+        }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         viewModel.markAllMessagesAsRead()
-        SignalNotificationManager.updateUnreadMessagesNumber()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,7 +199,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         viewModel.saveDraftIfNeeded(inputViewText: textInputView.text)
 
         viewModel.markAllMessagesAsRead()
-        SignalNotificationManager.updateUnreadMessagesNumber()
 
         preferLargeTitleIfPossible(true)
     }
@@ -227,7 +238,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         buttonsView.leadingToSuperview()
         buttonsView.bottomToTop(of: textInputView)
         buttonsView.trailingToSuperview()
-        
+
         ethereumPromptView.top(to: layoutGuide())
         ethereumPromptView.left(to: view)
         ethereumPromptView.right(to: view)
@@ -246,16 +257,22 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private func updateConstraints() {
         textInputViewBottomConstraint?.constant = heightOfKeyboard < -textInputHeight ? heightOfKeyboard + textInputHeight + ChatButtonsView.height : 0
         textInputViewHeightConstraint?.constant = textInputHeight
-        
+
         keyboardAwareInputView.height = ChatButtonsView.height + textInputHeight
         keyboardAwareInputView.invalidateIntrinsicContentSize()
 
         view.layoutIfNeeded()
     }
 
-    @objc private func showContactProfile(_ sender: UITapGestureRecognizer) {
-        if let contact = self.viewModel.contact, sender.state == .ended {
-            let contactController = ProfileViewController(contact: contact)
+    @objc fileprivate func showThreadOrRecipientDetails(_ sender: UITapGestureRecognizer) {
+
+        if let groupThread = thread as? TSGroupThread {
+            let viewModel = GroupInfoViewModel(groupThread)
+
+            let groupViewController = GroupViewController(viewModel, configurator: GroupInfoConfigurator())
+            Navigator.push(groupViewController)
+        } else if let contact = self.viewModel.contact, sender.state == .ended {
+            let contactController = ProfileViewController(profile: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
     }
@@ -395,7 +412,7 @@ extension ChatViewController: UIImagePickerControllerDelegate {
             return
         }
 
-        viewModel.interactor.sendImage(image)
+        viewModel.interactor.send(image: image)
     }
 }
 
@@ -472,36 +489,36 @@ extension ChatViewController: UITableViewDataSource {
 
     private func dequeueMessageBasicCell(message: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
+        if !messageModel.isOutgoing, let incomingSignalMessage = messageModel.signalMessage as? TSIncomingMessage, let userId = incomingSignalMessage.authorId as String? {
+            AvatarManager.shared.avatar(for: userId, completion: { image, _ in
+                cell.avatarImageView.image = image
+            })
+        }
 
-            if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath {
-                AvatarManager.shared.avatar(for: avatarPath, completion: { image, _ in
-                    cell.avatarImageView.image = image
-                })
-            }
+        cell.isOutGoing = messageModel.isOutgoing
+        cell.positionType = positionType(for: indexPath)
+        cell.delegate = self
 
-            cell.isOutGoing = message.isOutgoing
-            cell.positionType = positionType(for: indexPath)
+        updateMessageState(message, in: cell)
 
-            updateMessageState(message, in: cell)
-
-        if let cell = cell as? MessagesImageCell, message.type == .image {
-            cell.messageImage = message.image
-        } else if let cell = cell as? MessagesPaymentCell, (message.type == .payment) || (message.type == .paymentRequest), let signalMessage = message.signalMessage {
-            cell.titleLabel.text = message.title
-            cell.subtitleLabel.text = message.subtitle
-            cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: message.type)
+        if let cell = cell as? MessagesImageCell, messageModel.type == .image {
+            cell.messageImage = messageModel.image
+        } else if let cell = cell as? MessagesPaymentCell, (messageModel.type == .payment) || (messageModel.type == .paymentRequest), let signalMessage = messageModel.signalMessage {
+            cell.titleLabel.text = messageModel.title
+            cell.subtitleLabel.text = messageModel.subtitle
+            cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: messageModel.type)
             cell.selectionDelegate = self
 
-            let isPaymentOpen = (message.signalMessage?.paymentState ?? .none) == .none
-            let isMessageActionable = message.isActionable
+            let isPaymentOpen = (messageModel.signalMessage?.paymentState ?? .none) == .none
+            let isMessageActionable = messageModel.isActionable
 
             let isOpenPaymentRequest = isMessageActionable && isPaymentOpen
             if isOpenPaymentRequest {
                 showActiveNetworkViewIfNeeded()
             }
 
-        } else if let cell = cell as? MessagesTextCell, message.type == .simple {
-            cell.messageText = message.text
+        } else if let cell = cell as? MessagesTextCell, messageModel.type == .simple {
+            cell.messageText = messageModel.text
         }
 
         return cell
@@ -522,6 +539,14 @@ extension ChatViewController: UITableViewDataSource {
         }
     }
 
+    func authorId(for message: TSMessage?) -> String? {
+        if let incomingSignalMessage = message as? TSIncomingMessage {
+            return incomingSignalMessage.authorId
+        }
+
+        return TokenUser.current?.address
+    }
+
     private func positionType(for indexPath: IndexPath) -> MessagePositionType {
 
         guard let currentMessage = viewModel.messageModels.element(at: indexPath.row) else {
@@ -529,33 +554,49 @@ extension ChatViewController: UITableViewDataSource {
             return .single
         }
 
-        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else {
-            guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
-                // this is the first and only cell
-                return .single
-            }
+        let currentAuthorId = authorId(for: currentMessage.signalMessage)
 
-            // this is the first cell of many
-            return currentMessage.isOutgoing == nextMessage.isOutgoing ? .bottom : .single
+        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else {
+
+            guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else { return .single }
+
+            let nextAuthorId = authorId(for: nextMessage.signalMessage)
+            return currentAuthorId == nextAuthorId ? .bottom : .single
         }
+
+        let previousAuthorId = authorId(for: previousMessage.signalMessage)
 
         guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
-            // this is the last cell
-            return currentMessage.isOutgoing == previousMessage.isOutgoing ? .top : .single
+            return currentAuthorId == previousAuthorId ? .top : .single
         }
 
-        if currentMessage.isOutgoing != previousMessage.isOutgoing, currentMessage.isOutgoing != nextMessage.isOutgoing {
-            // the previous and next messages are not from the same user
-            return .single
-        } else if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing == nextMessage.isOutgoing {
-            // the previous and next messages are from the same user
+        let nextAuthorId = authorId(for: nextMessage.signalMessage)
+
+        if currentAuthorId == previousAuthorId && currentAuthorId == nextAuthorId {
             return .middle
-        } else if currentMessage.isOutgoing == previousMessage.isOutgoing {
-            // the previous message is from the same user but the next message is not
+        } else if currentAuthorId == previousAuthorId {
             return .top
-        } else {
-            // the next message is from the same user but the previous message is not
+        } else if currentAuthorId == nextAuthorId {
             return .bottom
+        }
+
+        return .single
+    }
+}
+
+extension ChatViewController: MessagesBasicCellDelegate {
+
+    func didTapAvatarImageView(from cell: MessagesBasicCell) {
+
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        guard let message = viewModel.messageModels.element(at: indexPath.row) else { return }
+        guard let authorId = authorId(for: message.signalMessage) else { return }
+
+        IDAPIClient.shared.findContact(name: authorId) { [weak self] user in
+            guard let retrievedUser = user else { return }
+
+            let contactController = ProfileViewController(profile: retrievedUser)
+            self?.navigationController?.pushViewController(contactController, animated: true)
         }
     }
 }

@@ -74,6 +74,10 @@ final class Yap: NSObject, Singleton {
         return UserDefaultsWrapper.isDatabasePasswordAccessible
     }
 
+    static var isUserSessionSetup: Bool {
+        return sharedInstance.database != nil && TokenUser.current != nil
+    }
+
     @objc static var inconsistentStateDescription = inconsistencyError.description
 
     @objc static var inconsistencyError: YapInconsistencyError = isUserDatabaseFileAccessible ? .missingKeychainPassword : .missingDatabaseFile

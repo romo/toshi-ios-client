@@ -22,7 +22,7 @@ struct SoundPlayer {
         case messageSent
         case messageReceived
         case scanned = "scan"
-        case addedContact = "addContactApp"
+        case addedProfile = "addContactApp"
         case requestPayment
         case paymentSend
         case menuButton

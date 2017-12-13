@@ -44,4 +44,15 @@ extension UIView {
         setContentHuggingPriority(.required, for: .vertical)
         setContentHuggingPriority(.required, for: .horizontal)
     }
+
+    func circleify() {
+        self.layer.cornerRadius = self.frame.width / 2
+    }
+    
+    func showDebugBorder(color: UIColor) {
+        #if DEBUG
+            layer.borderColor = color.cgColor
+            layer.borderWidth = 1
+        #endif
+    }
 }

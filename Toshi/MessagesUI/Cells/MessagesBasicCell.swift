@@ -16,6 +16,10 @@ enum OutGoingMessageSentState {
     case failed
 }
 
+protocol MessagesBasicCellDelegate: class {
+    func didTapAvatarImageView(from cell: MessagesBasicCell)
+}
+
 /* Messages Basic Cell:
  This UITableViewCell is the base cell for the different
  advanced cells used in messages. It provides the ground layout. */
@@ -45,6 +49,7 @@ class MessagesBasicCell: UITableViewCell {
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.layer.cornerRadius = 18
+        view.isUserInteractionEnabled = true
 
         return view
     }()
@@ -95,6 +100,12 @@ class MessagesBasicCell: UITableViewCell {
     private var contentLayoutGuideTopConstraint: NSLayoutConstraint?
     private var bottomLayoutGuideHeightConstraint: NSLayoutConstraint?
 
+    private lazy var avatarTapGestureRecogniser: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(didTapAvatarImageView(_:)))
+    }()
+
+    weak var delegate: MessagesBasicCellDelegate?
+
     var isOutGoing: Bool = false {
         didSet {
             if isOutGoing {
@@ -116,7 +127,7 @@ class MessagesBasicCell: UITableViewCell {
             let isFirstMessage = positionType == .single || positionType == .top
             contentLayoutGuideTopConstraint?.constant = isFirstMessage ? 8 : 4
 
-            let isAvatarHidden = positionType == .top || positionType == .middle || isOutGoing
+            let isAvatarHidden = positionType == .middle || positionType == .top || isOutGoing
             avatarImageView.isHidden = isAvatarHidden
 
             messagesCornerView.setImage(for: positionType, isOutGoing: isOutGoing, isPayment: self is MessagesPaymentCell)
@@ -216,6 +227,8 @@ class MessagesBasicCell: UITableViewCell {
 
         contentView.addSubview(errorlabel)
         errorlabel.edges(to: bottomLayoutGuide)
+
+        avatarImageView.addGestureRecognizer(avatarTapGestureRecogniser)
     }
 
     func showSentError(_ show: Bool, animated: Bool = false) {
@@ -248,5 +261,11 @@ class MessagesBasicCell: UITableViewCell {
         avatarImageView.image = nil
         messagesCornerView.image = nil
         sentState = .undefined
+    }
+
+    @objc private func didTapAvatarImageView(_ gesture: UITapGestureRecognizer) {
+        guard gesture.state == .ended else { return }
+
+        delegate?.didTapAvatarImageView(from: self)
     }
 }
