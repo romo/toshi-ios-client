@@ -450,11 +450,7 @@ extension ChatViewController: UITableViewDataSource {
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.reuseIdentifier, for: indexPath)
 
-        //WARNING: Don't merge this! It's commented for testing purposes only!
-        let realMessage = viewModel.messageModels[indexPath.item]
-
-        let message = Message(sofaWrapper: SofaStatus(content: "SOFA::Status:{\"type\":\"leave\",\"subject\":\"Robert\"}"), signalMessage: realMessage.signalMessage!)
-        let messageModel = MessageModel(message: message)
+        let messageModel = viewModel.messageModels[indexPath.item]
 
         if messageModel.sofaWrapper?.type == SofaType.status {
             cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
